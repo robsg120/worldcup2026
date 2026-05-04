@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Cup 2026 — Leaderboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0f1e;
+    --surface: #111827;
+    --card: #1a2235;
+    --border: #2a3a55;
+    --gold: #f5c842;
+    --gold2: #e8a820;
+    --silver: #9ca3af;
+    --bronze: #cd7f32;
+    --red: #e84040;
+    --green: #2ecc71;
+    --text: #e8edf5;
+    --muted: #8896a8;
+    --accent: #3b82f6;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    background-image: radial-gradient(ellipse at 20% 0%, #1a2a4a 0%, transparent 60%),
+                      radial-gradient(ellipse at 80% 100%, #1a1040 0%, transparent 60%);
+  }
+
+  header {
+    text-align: center;
+    padding: 48px 20px 28px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .trophy-icon { font-size: 48px; display: block; margin-bottom: 12px; }
+
+  header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 8vw, 72px);
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-shadow: 0 0 40px rgba(245,200,66,0.3);
+    line-height: 1;
+  }
+
+  header h2 {
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+
+  .nav-bar {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .nav-btn {
+    padding: 8px 20px;
+    border-radius: 99px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    background: var(--surface);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .nav-btn:hover, .nav-btn.active {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(245,200,66,0.08);
+  }
+
+  /* Phase tabs */
+  .tabs {
+    display: flex;
+    max-width: 900px;
+    margin: 32px auto 0;
+    padding: 0 20px;
+    gap: 8px;
+  }
+
+  .tab {
+    flex: 1;
+    text-align: center;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+
+  .tab.active {
+    background: linear-gradient(135deg, rgba(245,200,66,0.15), rgba(245,200,66,0.05));
+    border-color: rgba(245,200,66,0.4);
+    color: var(--gold);
+  }
+
+  /* Stats bar */
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 0 20px;
+    flex-wrap: wrap;
+  }
+
+  .stat-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 20px;
+    text-align: center;
+    min-width: 100px;
+    flex: 1;
+  }
+
+  .stat-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* Podium */
+  .podium {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 12px;
+    max-width: 600px;
+    margin: 24px auto 0;
+    padding: 0 20px;
+  }
+
+  .podium-place {
+    flex: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .podium-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    margin-bottom: 8px;
+    border: 2px solid;
+  }
+
+  .podium-place.first .podium-avatar { background: rgba(245,200,66,0.2); border-color: var(--gold); color: var(--gold); }
+  .podium-place.second .podium-avatar { background: rgba(156,163,175,0.2); border-color: var(--silver); color: var(--silver); }
+  .podium-place.third .podium-avatar { background: rgba(205,127,50,0.2); border-color: var(--bronze); color: var(--bronze); }
+
+  .podium-name {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  .podium-score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  .podium-place.first .podium-score { color: var(--gold); }
+  .podium-place.second .podium-score { color: var(--silver); }
+  .podium-place.third .podium-score { color: var(--bronze); }
+
+  .podium-block {
+    width: 100%;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+  }
+
+  .podium-place.first .podium-block { height: 90px; background: linear-gradient(180deg, rgba(245,200,66,0.3), rgba(245,200,66,0.1)); color: var(--gold); }
+  .podium-place.second .podium-block { height: 65px; background: linear-gradient(180deg, rgba(156,163,175,0.3), rgba(156,163,175,0.1)); color: var(--silver); }
+  .podium-place.third .podium-block { height: 48px; background: linear-gradient(180deg, rgba(205,127,50,0.3), rgba(205,127,50,0.1)); color: var(--bronze); }
+
+  /* Main leaderboard table */
+  .leaderboard-wrap {
+    max-width: 900px;
+    margin: 28px auto 60px;
+    padding: 0 20px;
+  }
+
+  .section-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  .lb-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card);
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .lb-table thead tr {
+    background: linear-gradient(90deg, rgba(245,200,66,0.1), rgba(245,200,66,0.04));
+    border-bottom: 1px solid var(--border);
+  }
+
+  .lb-table th {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .lb-table th.right, .lb-table td.right { text-align: right; }
+  .lb-table th.center, .lb-table td.center { text-align: center; }
+
+  .lb-table tbody tr {
+    border-bottom: 1px solid rgba(42,58,85,0.5);
+    transition: background 0.15s;
+  }
+
+  .lb-table tbody tr:last-child { border-bottom: none; }
+  .lb-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+  .lb-table td {
+    padding: 14px 16px;
+    font-size: 14px;
+  }
+
+  .rank-cell {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    width: 50px;
+  }
+
+  .rank-1 { color: var(--gold); }
+  .rank-2 { color: var(--silver); }
+  .rank-3 { color: var(--bronze); }
+
+  .name-cell { font-weight: 600; }
+
+  .score-cell {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--gold);
+  }
+
+  .phase-score {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .movement {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 99px;
+  }
+
+  .movement.up { color: var(--green); background: rgba(46,204,113,0.1); }
+  .movement.down { color: var(--red); background: rgba(232,64,64,0.1); }
+  .movement.same { color: var(--muted); }
+
+  /* Admin panel */
+  .admin-toggle {
+    max-width: 900px;
+    margin: 0 auto 16px;
+    padding: 0 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .admin-btn {
+    font-size: 12px;
+    color: var(--muted);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .admin-btn:hover { color: var(--text); border-color: var(--muted); }
+
+  .admin-panel {
+    display: none;
+    max-width: 900px;
+    margin: 0 auto 24px;
+    padding: 0 20px;
+  }
+
+  .admin-panel.show { display: block; }
+
+  .admin-card {
+    background: var(--card);
+    border: 1px solid rgba(245,200,66,0.2);
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .admin-card h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .admin-note {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+
+  .admin-note a { color: var(--accent); text-decoration: none; }
+  .admin-note a:hover { text-decoration: underline; }
+
+  .sheet-input-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .sheet-input-row input {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+  }
+
+  .sheet-input-row input:focus { border-color: var(--accent); }
+
+  .sheet-input-row button {
+    background: var(--accent);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+
+  .sheet-input-row button:hover { opacity: 0.85; }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+  }
+
+  .empty-state .big-icon { font-size: 48px; margin-bottom: 16px; }
+  .empty-state h3 { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 2px; color: var(--text); margin-bottom: 8px; }
+  .empty-state p { font-size: 14px; line-height: 1.6; max-width: 400px; margin: 0 auto; }
+
+  /* Last updated */
+  .last-updated {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    padding: 12px;
+    letter-spacing: 0.5px;
+  }
+
+  /* Tiebreaker note */
+  .tb-note {
+    max-width: 900px;
+    margin: 0 auto 16px;
+    padding: 0 20px;
+  }
+
+  .tb-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .tb-card strong { color: var(--text); }
+
+  @media (max-width: 600px) {
+    .lb-table th.hide-mobile, .lb-table td.hide-mobile { display: none; }
+    .podium { gap: 6px; }
+    .podium-name { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="trophy-icon">🏆</span>
+  <h1>World Cup 2026</h1>
+  <h2>Live Leaderboard</h2>
+</header>
+
+<div class="nav-bar">
+  <a href="worldcup2026-picks.html" class="nav-btn">📋 Submit Picks</a>
+  <a href="worldcup2026-leaderboard.html" class="nav-btn active">🏆 Leaderboard</a>
+</div>
+
+<!-- Phase tabs -->
+<div class="tabs">
+  <div class="tab active" onclick="setPhase('overall')">Overall</div>
+  <div class="tab" onclick="setPhase('group')">Group Phase</div>
+  <div class="tab" onclick="setPhase('knockout')">Knockout Phase</div>
+</div>
+
+<!-- Stats -->
+<div class="stats-row">
+  <div class="stat-box">
+    <div class="stat-val" id="statPlayers">—</div>
+    <div class="stat-label">Players</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-val" id="statLeader">—</div>
+    <div class="stat-label">Leader Score</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-val" id="statAvg">—</div>
+    <div class="stat-label">Avg Score</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-val" id="statPhase">Groups</div>
+    <div class="stat-label">Current Phase</div>
+  </div>
+</div>
+
+<!-- Podium (top 3) -->
+<div class="podium" id="podium" style="display:none"></div>
+
+<!-- Admin toggle -->
+<div class="admin-toggle">
+  <button class="admin-btn" onclick="toggleAdmin()">⚙ Organizer Settings</button>
+</div>
+
+<!-- Admin panel -->
+<div class="admin-panel" id="adminPanel">
+  <div class="admin-card">
+    <h3>🔧 Organizer Panel</h3>
+    <div class="admin-note">
+      To display live scores, publish your Google Sheet as a CSV and paste the URL below.<br>
+      In your Sheet: <strong>File → Share → Publish to web</strong> → select your sheet → CSV → copy the link.
+    </div>
+    <div class="sheet-input-row">
+      <input type="text" id="csvUrl" placeholder="Paste your Google Sheet CSV publish URL here..." />
+      <button onclick="loadFromSheet()">Load Scores</button>
+    </div>
+    <div class="admin-note" style="margin:0; font-size:12px;">
+      💡 Your sheet URL will be remembered in this browser. Scores refresh every 60 seconds automatically.
+    </div>
+  </div>
+</div>
+
+<!-- Tiebreaker note -->
+<div class="tb-note">
+  <div class="tb-card">
+    <strong>Tiebreakers (in order):</strong>
+    1. Picked World Cup winner &nbsp;·&nbsp;
+    2. Semifinal points &nbsp;·&nbsp;
+    3. Quarterfinal points &nbsp;·&nbsp;
+    4. Round of 32 points
+  </div>
+</div>
+
+<!-- Main table -->
+<div class="leaderboard-wrap">
+  <div class="section-label">Rankings</div>
+  <div id="lbContent">
+    <div class="empty-state">
+      <div class="big-icon">⏳</div>
+      <h3>Awaiting Scores</h3>
+      <p>Once picks are in and matches start, the organizer will update scores here. Check back after June 11!</p>
+    </div>
+  </div>
+</div>
+
+<div class="last-updated" id="lastUpdated"></div>
+
+<script>
+// ─── Sample/demo data (replace with live sheet data) ───────────────────────
+// Format: { name, groupScore, knockoutScore, totalScore, movement }
+// movement: 'up', 'down', 'same'
+let players = [];
+let currentPhase = 'overall';
+let csvUrl = localStorage.getItem('wc2026_csv') || '';
+
+if (csvUrl) {
+  document.getElementById('csvUrl').value = csvUrl;
+  loadFromSheet();
+}
+
+function setPhase(phase) {
+  currentPhase = phase;
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    t.classList.toggle('active', ['overall','group','knockout'][i] === phase);
+  });
+
+  const phaseLabels = { overall: 'Overall', group: 'Groups', knockout: 'Knockout' };
+  document.getElementById('statPhase').textContent = phaseLabels[phase];
+  renderTable();
+}
+
+function toggleAdmin() {
+  document.getElementById('adminPanel').classList.toggle('show');
+}
+
+async function loadFromSheet() {
+  const url = document.getElementById('csvUrl').value.trim();
+  if (!url) return alert('Please paste your Google Sheet CSV URL.');
+
+  localStorage.setItem('wc2026_csv', url);
+  csvUrl = url;
+
+  try {
+    const res = await fetch(url);
+    const text = await res.text();
+    parseCSV(text);
+    document.getElementById('lastUpdated').textContent =
+      'Last updated: ' + new Date().toLocaleTimeString();
+  } catch (e) {
+    alert('Could not load sheet. Make sure it is published publicly as CSV.');
+    console.error(e);
+  }
+}
+
+function parseCSV(text) {
+  const rows = text.trim().split('\n').map(r => r.split(',').map(c => c.trim().replace(/^"|"$/g, '')));
+  if (rows.length < 2) return;
+
+  // Expected columns: Timestamp, Name, Email, Group A...L, Total Score
+  // Score column = last column (index 15)
+  players = [];
+
+  for (let i = 1; i < rows.length; i++) {
+    const row = rows[i];
+    if (!row[1]) continue; // skip empty rows
+
+    const name = row[1];
+    const totalScore = parseInt(row[15]) || 0;
+    const groupScore = parseInt(row[16]) || 0;   // optional extra columns you can add
+    const knockoutScore = parseInt(row[17]) || 0;
+
+    players.push({ name, totalScore, groupScore, knockoutScore, movement: 'same' });
+  }
+
+  // Sort by total score desc
+  players.sort((a, b) => b.totalScore - a.totalScore);
+  renderTable();
+  renderStats();
+  renderPodium();
+}
+
+function getSortedPlayers() {
+  const sorted = [...players];
+  if (currentPhase === 'group') {
+    sorted.sort((a, b) => b.groupScore - a.groupScore);
+  } else if (currentPhase === 'knockout') {
+    sorted.sort((a, b) => b.knockoutScore - a.knockoutScore);
+  } else {
+    sorted.sort((a, b) => b.totalScore - a.totalScore);
+  }
+  return sorted;
+}
+
+function getScore(p) {
+  if (currentPhase === 'group') return p.groupScore;
+  if (currentPhase === 'knockout') return p.knockoutScore;
+  return p.totalScore;
+}
+
+function renderStats() {
+  if (!players.length) return;
+  const total = players.reduce((s, p) => s + p.totalScore, 0);
+  document.getElementById('statPlayers').textContent = players.length;
+  document.getElementById('statLeader').textContent = players[0]?.totalScore || 0;
+  document.getElementById('statAvg').textContent = Math.round(total / players.length);
+}
+
+function renderPodium() {
+  if (players.length < 3) return;
+  const podium = document.getElementById('podium');
+  podium.style.display = 'flex';
+  const top3 = players.slice(0, 3);
+
+  // Order: 2nd, 1st, 3rd
+  const order = [
+    { p: top3[1], cls: 'second', medal: '🥈', rank: 2 },
+    { p: top3[0], cls: 'first', medal: '🥇', rank: 1 },
+    { p: top3[2], cls: 'third', medal: '🥉', rank: 3 },
+  ];
+
+  podium.innerHTML = order.map(({ p, cls, medal, rank }) => `
+    <div class="podium-place ${cls}">
+      <div class="podium-avatar">${p.name.charAt(0).toUpperCase()}</div>
+      <div class="podium-name">${p.name.split(' ')[0]}</div>
+      <div class="podium-score">${p.totalScore} pts</div>
+      <div class="podium-block">${rank}</div>
+    </div>
+  `).join('');
+}
+
+function renderTable() {
+  const sorted = getSortedPlayers();
+  const content = document.getElementById('lbContent');
+
+  if (!sorted.length) {
+    content.innerHTML = `
+      <div class="empty-state">
+        <div class="big-icon">⏳</div>
+        <h3>Awaiting Scores</h3>
+        <p>Once picks are in and matches start, scores will appear here. Check back after June 11!</p>
+      </div>`;
+    return;
+  }
+
+  const rows = sorted.map((p, i) => {
+    const rankClass = i < 3 ? `rank-${i+1}` : '';
+    const movIcon = p.movement === 'up' ? '▲' : p.movement === 'down' ? '▼' : '–';
+    const movClass = p.movement;
+
+    return `
+      <tr>
+        <td class="rank-cell ${rankClass}">${i + 1}</td>
+        <td class="name-cell">${p.name}</td>
+        <td class="score-cell right">${getScore(p)}</td>
+        <td class="right hide-mobile phase-score">${p.groupScore}</td>
+        <td class="right hide-mobile phase-score">${p.knockoutScore}</td>
+        <td class="center hide-mobile"><span class="movement ${movClass}">${movIcon}</span></td>
+      </tr>`;
+  }).join('');
+
+  content.innerHTML = `
+    <table class="lb-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Player</th>
+          <th class="right">Points</th>
+          <th class="right hide-mobile">Group Pts</th>
+          <th class="right hide-mobile">Knockout Pts</th>
+          <th class="center hide-mobile">Move</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
+// Auto-refresh every 60 seconds if CSV URL is set
+setInterval(() => {
+  if (csvUrl) loadFromSheet();
+}, 60000);
+
+// Init
+renderTable();
+</script>
+</body>
+</html>

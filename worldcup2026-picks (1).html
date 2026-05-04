@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Cup 2026 — Group Phase Picks</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0f1e;
+    --surface: #111827;
+    --card: #1a2235;
+    --border: #2a3a55;
+    --gold: #f5c842;
+    --gold2: #e8a820;
+    --red: #e84040;
+    --green: #2ecc71;
+    --text: #e8edf5;
+    --muted: #8896a8;
+    --accent: #3b82f6;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    background-image: radial-gradient(ellipse at 20% 0%, #1a2a4a 0%, transparent 60%),
+                      radial-gradient(ellipse at 80% 100%, #1a1040 0%, transparent 60%);
+  }
+
+  header {
+    text-align: center;
+    padding: 48px 20px 32px;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .trophy-icon {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 12px;
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 8vw, 72px);
+    letter-spacing: 4px;
+    line-height: 1;
+    color: var(--gold);
+    text-shadow: 0 0 40px rgba(245,200,66,0.3);
+  }
+
+  header h2 {
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+
+  .deadline-banner {
+    background: linear-gradient(90deg, transparent, rgba(245,200,66,0.08), transparent);
+    border-top: 1px solid rgba(245,200,66,0.2);
+    border-bottom: 1px solid rgba(245,200,66,0.2);
+    text-align: center;
+    padding: 12px 20px;
+    font-size: 13px;
+    color: var(--gold);
+    letter-spacing: 1px;
+  }
+
+  .instructions {
+    max-width: 720px;
+    margin: 32px auto;
+    padding: 0 20px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .instructions-header {
+    background: linear-gradient(90deg, var(--accent), #1d4ed8);
+    padding: 12px 20px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 2px;
+  }
+
+  .instructions-body {
+    padding: 20px;
+    font-size: 14px;
+    line-height: 1.8;
+    color: #b0bec5;
+  }
+
+  .instructions-body strong { color: var(--gold); }
+
+  .scoring-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .score-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+  }
+
+  .score-badge {
+    background: var(--gold);
+    color: #000;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    min-width: 36px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  /* Participant info */
+  .participant-section {
+    max-width: 720px;
+    margin: 0 auto 32px;
+    padding: 0 20px;
+  }
+
+  .section-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  .input-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  @media (max-width: 480px) { .input-row { grid-template-columns: 1fr; } }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .form-group label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .form-group input {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-group input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+  }
+
+  /* Groups grid */
+  .groups-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .group-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .group-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  .group-card.complete {
+    border-color: rgba(46,204,113,0.4);
+    box-shadow: 0 0 20px rgba(46,204,113,0.05);
+  }
+
+  .group-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    background: linear-gradient(135deg, rgba(245,200,66,0.12), rgba(245,200,66,0.04));
+    border-bottom: 1px solid var(--border);
+  }
+
+  .group-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: var(--gold);
+  }
+
+  .group-status {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .group-status.done { color: var(--green); }
+
+  .teams-list {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  /* Drag target */
+  .team-slot {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: grab;
+    transition: all 0.15s;
+    user-select: none;
+  }
+
+  .team-slot:active { cursor: grabbing; }
+
+  .team-slot.dragging {
+    opacity: 0.4;
+    transform: scale(0.97);
+  }
+
+  .team-slot.drag-over {
+    border-color: var(--accent);
+    background: rgba(59,130,246,0.1);
+    transform: scale(1.01);
+  }
+
+  .rank-badge {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .rank-1 { background: var(--gold); color: #000; }
+  .rank-2 { background: #9ca3af; color: #000; }
+  .rank-3 { background: #78350f; color: #eee; }
+  .rank-4 { background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
+
+  .team-flag { font-size: 20px; flex-shrink: 0; }
+
+  .team-name {
+    font-size: 14px;
+    font-weight: 500;
+    flex: 1;
+  }
+
+  .drag-handle {
+    color: var(--border);
+    font-size: 16px;
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+
+  .advances-label {
+    margin: 4px 12px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .advances-label::before, .advances-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(46,204,113,0.2);
+  }
+
+  .advances-label.third { color: #f59e0b; }
+  .advances-label.third::before, .advances-label.third::after {
+    background: rgba(245,158,11,0.2);
+  }
+
+  .eliminated-label {
+    margin: 4px 12px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .eliminated-label::before, .eliminated-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Progress bar */
+  .progress-section {
+    max-width: 720px;
+    margin: 0 auto 24px;
+    padding: 0 20px;
+  }
+
+  .progress-bar-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    height: 10px;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+    border-radius: 99px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+
+  /* Submit area */
+  .submit-section {
+    max-width: 720px;
+    margin: 0 auto 60px;
+    padding: 0 20px;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    border: none;
+    border-radius: 12px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 4px;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .submit-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.4s;
+  }
+
+  .submit-btn:hover::after { transform: translateX(100%); }
+  .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(245,200,66,0.35); }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .submit-note {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  /* Modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .modal-overlay.show { display: flex; }
+
+  .modal {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    max-width: 500px;
+    width: 100%;
+    padding: 40px;
+    text-align: center;
+    animation: modalIn 0.3s ease;
+  }
+
+  @keyframes modalIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .modal-trophy { font-size: 64px; margin-bottom: 16px; }
+
+  .modal h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .modal p {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+
+  .modal-close {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 24px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .modal-close:hover { background: var(--border); }
+
+  .groups-header {
+    max-width: 1200px;
+    margin: 24px auto 16px;
+    padding: 0 20px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="trophy-icon">🏆</span>
+  <h1>FIFA World Cup 2026</h1>
+  <h2>Group Phase Picks</h2>
+</header>
+
+<div class="deadline-banner">
+  ⚽ &nbsp; Picks must be submitted before the tournament kicks off &nbsp; · &nbsp; June 11, 2026 &nbsp; ⚽
+</div>
+
+<!-- Instructions -->
+<div class="instructions" style="margin-top:32px; max-width:760px; margin-left:auto; margin-right:auto; margin-bottom:24px;">
+  <div class="instructions-header">📋 &nbsp; How It Works</div>
+  <div class="instructions-body">
+    Rank all 4 teams in each group by dragging them into your predicted finishing order (1st through 4th).
+    The <strong>top 2 teams</strong> from each group automatically advance to the Round of 32. The <strong>best 8 third-place</strong> teams across all 12 groups also advance.
+    <div class="scoring-grid">
+      <div class="score-item"><span class="score-badge">1pt</span> Correct team advances (top 3)</div>
+      <div class="score-item"><span class="score-badge">1pt</span> Correct finishing position</div>
+      <div class="score-item"><span class="score-badge">+1</span> Bonus for perfect group order</div>
+    </div>
+  </div>
+</div>
+
+<!-- Participant info -->
+<div class="participant-section">
+  <div class="section-label">Your Info</div>
+  <div class="input-row">
+    <div class="form-group">
+      <label>Full Name *</label>
+      <input type="text" id="playerName" placeholder="e.g. John Smith" />
+    </div>
+    <div class="form-group">
+      <label>Email Address *</label>
+      <input type="email" id="playerEmail" placeholder="e.g. john@email.com" />
+    </div>
+  </div>
+</div>
+
+<!-- Progress -->
+<div class="progress-section">
+  <div class="section-label">Progress</div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+  <div class="progress-label">
+    <span id="progressText">0 of 12 groups ranked</span>
+    <span id="progressPct">0%</span>
+  </div>
+</div>
+
+<!-- Groups label -->
+<div class="groups-header">
+  <div class="section-label">All 12 Groups — Drag to Rank</div>
+</div>
+
+<!-- Groups grid -->
+<div class="groups-container" id="groupsContainer"></div>
+
+<!-- Submit -->
+<div class="submit-section">
+  <button class="submit-btn" id="submitBtn" onclick="handleSubmit()">Submit My Picks</button>
+  <div class="submit-note">You'll receive a confirmation summary after submitting. Picks are locked at tournament kickoff.</div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal-overlay" id="successModal">
+  <div class="modal">
+    <div class="modal-trophy">🎉</div>
+    <h2>Picks Submitted!</h2>
+    <p id="modalMsg">Your group stage predictions have been locked in. Good luck — may the best picks win!</p>
+    <button class="modal-close" onclick="document.getElementById('successModal').classList.remove('show')">Close</button>
+  </div>
+</div>
+
+<script>
+const GROUPS = {
+  A: { teams: [
+    { name: "Mexico", flag: "🇲🇽" },
+    { name: "South Korea", flag: "🇰🇷" },
+    { name: "South Africa", flag: "🇿🇦" },
+    { name: "Czechia", flag: "🇨🇿" }
+  ]},
+  B: { teams: [
+    { name: "Canada", flag: "🇨🇦" },
+    { name: "Switzerland", flag: "🇨🇭" },
+    { name: "Qatar", flag: "🇶🇦" },
+    { name: "Bosnia-Herzegovina", flag: "🇧🇦" }
+  ]},
+  C: { teams: [
+    { name: "Brazil", flag: "🇧🇷" },
+    { name: "Morocco", flag: "🇲🇦" },
+    { name: "Haiti", flag: "🇭🇹" },
+    { name: "Scotland", flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿" }
+  ]},
+  D: { teams: [
+    { name: "USA", flag: "🇺🇸" },
+    { name: "Paraguay", flag: "🇵🇾" },
+    { name: "Australia", flag: "🇦🇺" },
+    { name: "Türkiye", flag: "🇹🇷" }
+  ]},
+  E: { teams: [
+    { name: "Germany", flag: "🇩🇪" },
+    { name: "Curaçao", flag: "🇨🇼" },
+    { name: "Côte d'Ivoire", flag: "🇨🇮" },
+    { name: "Ecuador", flag: "🇪🇨" }
+  ]},
+  F: { teams: [
+    { name: "Netherlands", flag: "🇳🇱" },
+    { name: "Japan", flag: "🇯🇵" },
+    { name: "Sweden", flag: "🇸🇪" },
+    { name: "Tunisia", flag: "🇹🇳" }
+  ]},
+  G: { teams: [
+    { name: "Belgium", flag: "🇧🇪" },
+    { name: "Egypt", flag: "🇪🇬" },
+    { name: "New Zealand", flag: "🇳🇿" },
+    { name: "Algeria", flag: "🇩🇿" }
+  ]},
+  H: { teams: [
+    { name: "Portugal", flag: "🇵🇹" },
+    { name: "Uzbekistan", flag: "🇺🇿" },
+    { name: "DR Congo", flag: "🇨🇩" },
+    { name: "Iran", flag: "🇮🇷" }
+  ]},
+  I: { teams: [
+    { name: "France", flag: "🇫🇷" },
+    { name: "Senegal", flag: "🇸🇳" },
+    { name: "Norway", flag: "🇳🇴" },
+    { name: "Iraq", flag: "🇮🇶" }
+  ]},
+  J: { teams: [
+    { name: "Spain", flag: "🇪🇸" },
+    { name: "Saudi Arabia", flag: "🇸🇦" },
+    { name: "Panama", flag: "🇵🇦" },
+    { name: "Jordan", flag: "🇯🇴" }
+  ]},
+  K: { teams: [
+    { name: "Argentina", flag: "🇦🇷" },
+    { name: "Colombia", flag: "🇨🇴" },
+    { name: "Ghana", flag: "🇬🇭" },
+    { name: "Cape Verde", flag: "🇨🇻" }
+  ]},
+  L: { teams: [
+    { name: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
+    { name: "Croatia", flag: "🇭🇷" },
+    { name: "Uruguay", flag: "🇺🇾" },
+    { name: "Saudi Arabia (placeholder)", flag: "🇩🇿" }
+  ]}
+};
+
+// Fix Group L - confirmed teams
+GROUPS.L.teams = [
+  { name: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
+  { name: "Croatia", flag: "🇭🇷" },
+  { name: "Ghana", flag: "🇬🇭" },
+  { name: "Cabo Verde", flag: "🇨🇻" }
+];
+
+// State: group letter -> ordered array of team indices
+const state = {};
+let dragSrc = null;
+
+function buildGroups() {
+  const container = document.getElementById('groupsContainer');
+  container.innerHTML = '';
+
+  Object.entries(GROUPS).forEach(([letter, group]) => {
+    // Init state with default order
+    if (!state[letter]) {
+      state[letter] = group.teams.map((_, i) => i);
+    }
+
+    const card = document.createElement('div');
+    card.className = 'group-card';
+    card.id = `group-${letter}`;
+
+    card.innerHTML = `
+      <div class="group-header">
+        <span class="group-name">Group ${letter}</span>
+        <span class="group-status" id="status-${letter}">Drag to rank ↕</span>
+      </div>
+      <div class="teams-list" id="list-${letter}"></div>
+    `;
+
+    container.appendChild(card);
+    renderTeams(letter);
+  });
+}
+
+function renderTeams(letter) {
+  const list = document.getElementById(`list-${letter}`);
+  const group = GROUPS[letter];
+  const order = state[letter];
+
+  list.innerHTML = '';
+
+  // Labels between positions
+  const labels = {
+    0: null,
+    1: null,
+    2: `<div class="advances-label third">Best 3rd may advance</div>`,
+    3: `<div class="eliminated-label">Eliminated</div>`
+  };
+
+  order.forEach((teamIdx, rank) => {
+    const team = group.teams[teamIdx];
+
+    if (labels[rank]) list.insertAdjacentHTML('beforeend', labels[rank]);
+
+    const slot = document.createElement('div');
+    slot.className = 'team-slot';
+    slot.draggable = true;
+    slot.dataset.group = letter;
+    slot.dataset.rank = rank;
+    slot.dataset.teamIdx = teamIdx;
+
+    slot.innerHTML = `
+      <div class="rank-badge rank-${rank + 1}">${rank + 1}</div>
+      <span class="team-flag">${team.flag}</span>
+      <span class="team-name">${team.name}</span>
+      <span class="drag-handle">⠿</span>
+    `;
+
+    // After rank 2 (index 1), show advances divider
+    if (rank === 1) {
+      const div = document.createElement('div');
+      div.className = 'advances-label';
+      div.textContent = '✓ Advances';
+      // Actually we'll prepend before rank 0 conceptually, skip for now
+    }
+
+    slot.addEventListener('dragstart', onDragStart);
+    slot.addEventListener('dragover', onDragOver);
+    slot.addEventListener('dragleave', onDragLeave);
+    slot.addEventListener('drop', onDrop);
+    slot.addEventListener('dragend', onDragEnd);
+
+    list.appendChild(slot);
+  });
+
+  // Add top 2 advances label after rendering
+  insertLabels(letter);
+  updateGroupStatus(letter);
+  updateProgress();
+}
+
+function insertLabels(letter) {
+  const list = document.getElementById(`list-${letter}`);
+  const slots = list.querySelectorAll('.team-slot');
+
+  // Insert "Advances" after 2nd slot
+  if (slots[1]) {
+    const adv = document.createElement('div');
+    adv.className = 'advances-label';
+    adv.textContent = '✓ Auto-Advance';
+    slots[1].after(adv);
+  }
+
+  // Insert "Eliminated" before last slot
+  if (slots[3]) {
+    const elim = document.createElement('div');
+    elim.className = 'eliminated-label';
+    elim.textContent = '✗ Eliminated';
+    slots[3].before(elim);
+  }
+}
+
+function onDragStart(e) {
+  dragSrc = this;
+  this.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+function onDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  this.classList.add('drag-over');
+}
+
+function onDragLeave() {
+  this.classList.remove('drag-over');
+}
+
+function onDrop(e) {
+  e.preventDefault();
+  this.classList.remove('drag-over');
+  if (dragSrc === this) return;
+
+  const srcGroup = dragSrc.dataset.group;
+  const tgtGroup = this.dataset.group;
+  if (srcGroup !== tgtGroup) return;
+
+  const srcRank = parseInt(dragSrc.dataset.rank);
+  const tgtRank = parseInt(this.dataset.rank);
+
+  // Swap
+  const order = state[srcGroup];
+  [order[srcRank], order[tgtRank]] = [order[tgtRank], order[srcRank]];
+
+  renderTeams(srcGroup);
+}
+
+function onDragEnd() {
+  document.querySelectorAll('.team-slot').forEach(s => {
+    s.classList.remove('dragging', 'drag-over');
+  });
+  dragSrc = null;
+}
+
+// Touch support for mobile
+let touchSrc = null;
+let touchClone = null;
+
+document.addEventListener('touchstart', (e) => {
+  const slot = e.target.closest('.team-slot');
+  if (!slot) return;
+  touchSrc = slot;
+
+  touchClone = slot.cloneNode(true);
+  touchClone.style.cssText = `
+    position: fixed; opacity: 0.8; pointer-events: none; z-index: 9999;
+    width: ${slot.offsetWidth}px; transform: scale(1.03);
+    border: 1px solid var(--accent); border-radius: 8px;
+  `;
+  document.body.appendChild(touchClone);
+}, { passive: true });
+
+document.addEventListener('touchmove', (e) => {
+  if (!touchSrc || !touchClone) return;
+  const t = e.touches[0];
+  touchClone.style.left = (t.clientX - touchClone.offsetWidth / 2) + 'px';
+  touchClone.style.top = (t.clientY - 30) + 'px';
+
+  const el = document.elementFromPoint(t.clientX, t.clientY);
+  const over = el?.closest('.team-slot');
+  document.querySelectorAll('.team-slot').forEach(s => s.classList.remove('drag-over'));
+  if (over && over !== touchSrc) over.classList.add('drag-over');
+}, { passive: true });
+
+document.addEventListener('touchend', (e) => {
+  if (!touchSrc) return;
+  if (touchClone) { touchClone.remove(); touchClone = null; }
+
+  const t = e.changedTouches[0];
+  const el = document.elementFromPoint(t.clientX, t.clientY);
+  const tgt = el?.closest('.team-slot');
+
+  if (tgt && tgt !== touchSrc && tgt.dataset.group === touchSrc.dataset.group) {
+    const g = touchSrc.dataset.group;
+    const srcR = parseInt(touchSrc.dataset.rank);
+    const tgtR = parseInt(tgt.dataset.rank);
+    const order = state[g];
+    [order[srcR], order[tgtR]] = [order[tgtR], order[srcR]];
+    renderTeams(g);
+  }
+
+  document.querySelectorAll('.team-slot').forEach(s => s.classList.remove('drag-over'));
+  touchSrc = null;
+});
+
+function updateGroupStatus(letter) {
+  const card = document.getElementById(`group-${letter}`);
+  const statusEl = document.getElementById(`status-${letter}`);
+  card.classList.add('complete');
+  statusEl.textContent = '✓ Ranked';
+  statusEl.className = 'group-status done';
+}
+
+function updateProgress() {
+  // All groups always have an order, but we track if user interacted
+  // For now all groups count since they have a default order
+  const pct = 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressText').textContent = '12 of 12 groups ranked';
+  document.getElementById('progressPct').textContent = '100%';
+}
+
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyhiyutS5Q66_pIURGMRkUdx7JYEWlvcsFZSaIR29trz7dS8lOPrULm0sAGZPDuhAZj/exec';
+
+async function handleSubmit() {
+  const name = document.getElementById('playerName').value.trim();
+  const email = document.getElementById('playerEmail').value.trim();
+
+  if (!name) {
+    alert('Please enter your name.');
+    document.getElementById('playerName').focus();
+    return;
+  }
+  if (!email || !email.includes('@')) {
+    alert('Please enter a valid email address.');
+    document.getElementById('playerEmail').focus();
+    return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+
+  const picks = {};
+  Object.keys(GROUPS).forEach(letter => {
+    picks[letter] = state[letter].map(i => GROUPS[letter].teams[i].name);
+  });
+
+  try {
+    await fetch(SHEET_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, picks })
+    });
+
+    // no-cors means we can't read the response, but if no error thrown it sent
+    document.getElementById('modalMsg').textContent =
+      `${name}, your picks for all 12 groups are locked in! Check your email for a summary. Good luck! 🏆`;
+    document.getElementById('successModal').classList.add('show');
+    btn.textContent = '✓ Picks Submitted';
+    btn.style.background = 'linear-gradient(135deg, #2ecc71, #27ae60)';
+
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = 'Submit My Picks';
+    alert('Something went wrong submitting. Please try again or contact the organizer.');
+    console.error(err);
+  }
+}
+
+// Init
+buildGroups();
+</script>
+</body>
+</html>
