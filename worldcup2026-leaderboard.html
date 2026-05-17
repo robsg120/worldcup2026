@@ -603,23 +603,28 @@ function parseCSV(text) {
   const rows = text.trim().split('\n').map(r => r.split(',').map(c => c.trim().replace(/^"|"$/g, '')));
   if (rows.length < 2) return;
 
-  // Expected columns: Timestamp, Name, Email, Group A...L, Total Score
-  // Score column = last column (index 15)
+  // Detect columns from header row
+  // Scores sheet: Rank, Name, Email, Group Score, 3rd Place Score, Total Score, Breakdown
+  const header = rows[0].map(h => h.toLowerCase());
+  const nameCol     = header.findIndex(h => h === 'name');
+  const totalCol    = header.findIndex(h => h.includes('total'));
+  const groupCol    = header.findIndex(h => h.includes('group'));
+  const knockoutCol = header.findIndex(h => h.includes('knockout'));
+
   players = [];
 
   for (let i = 1; i < rows.length; i++) {
     const row = rows[i];
-    if (!row[1]) continue; // skip empty rows
+    const nm = nameCol >= 0 ? row[nameCol] : row[1];
+    if (!nm || nm === 'Name') continue;
 
-    const name = row[1];
-    const totalScore = parseInt(row[15]) || 0;
-    const groupScore = parseInt(row[16]) || 0;   // optional extra columns you can add
-    const knockoutScore = parseInt(row[17]) || 0;
+    const totalScore    = totalCol >= 0    ? (parseInt(row[totalCol])    || 0) : 0;
+    const groupScore    = groupCol >= 0    ? (parseInt(row[groupCol])    || 0) : 0;
+    const knockoutScore = knockoutCol >= 0 ? (parseInt(row[knockoutCol]) || 0) : 0;
 
-    players.push({ name, totalScore, groupScore, knockoutScore, movement: 'same' });
+    players.push({ name: nm, totalScore, groupScore, knockoutScore, movement: 'same' });
   }
 
-  // Sort by total score desc
   players.sort((a, b) => b.totalScore - a.totalScore);
   renderTable();
   renderStats();
