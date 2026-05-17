@@ -1075,13 +1075,15 @@ function updateGroupStatus(letter) {
   statusEl.className = 'group-status done';
 }
 
+let groupsReady = false;
+
 function updateProgress() {
   const pct = 100;
   document.getElementById('progressBar').style.width = pct + '%';
   document.getElementById('progressText').textContent = '12 of 12 groups ranked';
   document.getElementById('progressPct').textContent = '100%';
-  // Rebuild the 3rd-place grid whenever a group ranking changes
-  buildThirdPlaceGrid();
+  // Only rebuild after all 12 groups are initialized
+  if (groupsReady) buildThirdPlaceGrid();
 }
 
 const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyhiyutS5Q66_pIURGMRkUdx7JYEWlvcsFZSaIR29trz7dS8lOPrULm0sAGZPDuhAZj/exec';
@@ -1142,6 +1144,7 @@ async function handleSubmit() {
 
 // Init
 buildGroups();
+groupsReady = true;
 buildThirdPlaceGrid();
 </script>
 </body>
