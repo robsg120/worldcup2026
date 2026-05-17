@@ -394,6 +394,137 @@
     margin-top: 8px;
   }
 
+  /* 3rd place wildcards */
+  .third-place-section {
+    max-width: 1200px;
+    margin: 0 auto 32px;
+    padding: 0 20px;
+  }
+
+  .third-place-header {
+    background: linear-gradient(135deg, rgba(245,158,11,0.12), rgba(245,158,11,0.04));
+    border: 1px solid rgba(245,158,11,0.3);
+    border-radius: 14px 14px 0 0;
+    padding: 20px 24px 16px;
+  }
+
+  .third-place-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 2px;
+    color: #f59e0b;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .third-place-subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .third-place-counter {
+    background: var(--surface);
+    border-left: 1px solid rgba(245,158,11,0.3);
+    border-right: 1px solid rgba(245,158,11,0.3);
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #f59e0b;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .third-counter-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+    display: block;
+  }
+
+  #thirdCountBar {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, #f59e0b, #f5c842);
+    border-radius: 99px;
+    transition: width 0.3s ease;
+  }
+
+  .third-place-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0;
+    border: 1px solid rgba(245,158,11,0.3);
+    border-top: none;
+    border-radius: 0 0 14px 14px;
+    overflow: hidden;
+  }
+
+  .third-team-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    background: var(--card);
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+    position: relative;
+  }
+
+  .third-team-card:hover { background: rgba(245,158,11,0.06); }
+
+  .third-team-card.selected {
+    background: rgba(245,158,11,0.12);
+    border-color: rgba(245,158,11,0.3);
+  }
+
+  .third-team-card.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    font-size: 13px;
+    color: #f59e0b;
+    font-weight: bold;
+  }
+
+  .third-team-card.maxed:not(.selected) {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .third-group-badge {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    background: rgba(245,158,11,0.2);
+    color: #f59e0b;
+    border-radius: 4px;
+    padding: 1px 6px;
+    flex-shrink: 0;
+    letter-spacing: 1px;
+  }
+
+  .third-team-flag { font-size: 20px; flex-shrink: 0; }
+  .third-team-name { font-size: 13px; font-weight: 500; flex: 1; }
+
+  /* 8-selected glow */
+  .third-place-section.complete .third-place-header {
+    border-color: rgba(46,204,113,0.4);
+    background: linear-gradient(135deg, rgba(46,204,113,0.08), rgba(46,204,113,0.02));
+  }
+
+  .third-place-section.complete .third-place-title { color: var(--green); }
+  .third-place-section.complete .third-place-counter { color: var(--green); }
+  .third-place-section.complete #thirdCountBar { background: linear-gradient(90deg, var(--green), #27ae60); }
+
   /* Submit area */
   .submit-section {
     max-width: 720px;
@@ -567,6 +698,16 @@
 <!-- Groups grid -->
 <div class="groups-container" id="groupsContainer"></div>
 
+<!-- 3rd Place Wildcards -->
+<div class="third-place-section" id="thirdPlaceSection">
+  <div class="third-place-header">
+    <div class="third-place-title"><span>🟡</span><span>3rd Place Wildcards — Pick 8 to Advance</span></div>
+    <div class="third-place-subtitle">The best 8 third-place finishers across all 12 groups advance to the Round of 32. Based on your group rankings above, select which 8 you think will make it through.</div>
+  </div>
+  <div class="third-place-counter"><span id="thirdCount">0</span> / 8 selected <span class="third-counter-bar"><span id="thirdCountBar" style="width:0%"></span></span></div>
+  <div class="third-place-grid" id="thirdPlaceGrid"></div>
+</div>
+
 <!-- Submit -->
 <div class="submit-section">
   <button class="submit-btn" id="submitBtn" onclick="handleSubmit()">Submit My Picks</button>
@@ -667,7 +808,64 @@ GROUPS.L.teams = [
   { name: "Cabo Verde", flag: "🇨🇻" }
 ];
 
-// State: group letter -> ordered array of team indices
+// ─── 3rd Place Wildcards ────────────────────────────────────────────────────
+const thirdSelected = new Set();
+
+function buildThirdPlaceGrid() {
+  const grid = document.getElementById('thirdPlaceGrid');
+  grid.innerHTML = '';
+
+  Object.entries(GROUPS).forEach(([letter, group]) => {
+    const order = state[letter];
+    const thirdTeamIdx = order[2]; // whoever is ranked 3rd
+    const team = group.teams[thirdTeamIdx];
+    const id = `${letter}:${team.name}`;
+
+    const card = document.createElement('div');
+    card.className = 'third-team-card' + (thirdSelected.has(id) ? ' selected' : '');
+    card.dataset.id = id;
+    card.innerHTML = `
+      <span class="third-group-badge">GRP ${letter}</span>
+      <span class="third-team-flag">${team.flag}</span>
+      <span class="third-team-name">${team.name}</span>
+    `;
+
+    card.addEventListener('click', () => toggleThird(id, card));
+    grid.appendChild(card);
+  });
+
+  updateThirdCount();
+}
+
+function toggleThird(id, card) {
+  if (thirdSelected.has(id)) {
+    thirdSelected.delete(id);
+    card.classList.remove('selected');
+  } else {
+    if (thirdSelected.size >= 8) return; // max 8
+    thirdSelected.add(id);
+    card.classList.add('selected');
+  }
+  updateThirdCount();
+}
+
+function updateThirdCount() {
+  const n = thirdSelected.size;
+  document.getElementById('thirdCount').textContent = n;
+  document.getElementById('thirdCountBar').style.width = (n / 8 * 100) + '%';
+
+  const section = document.getElementById('thirdPlaceSection');
+  section.classList.toggle('complete', n === 8);
+
+  // Grey out unselected cards when at max
+  document.querySelectorAll('.third-team-card').forEach(c => {
+    if (!c.classList.contains('selected')) {
+      c.classList.toggle('maxed', n >= 8);
+    }
+  });
+}
+
+// ─── Original functions (updated to rebuild 3rd place on group change) ───────
 const state = {};
 let dragSrc = null;
 
@@ -878,12 +1076,12 @@ function updateGroupStatus(letter) {
 }
 
 function updateProgress() {
-  // All groups always have an order, but we track if user interacted
-  // For now all groups count since they have a default order
   const pct = 100;
   document.getElementById('progressBar').style.width = pct + '%';
   document.getElementById('progressText').textContent = '12 of 12 groups ranked';
   document.getElementById('progressPct').textContent = '100%';
+  // Rebuild the 3rd-place grid whenever a group ranking changes
+  buildThirdPlaceGrid();
 }
 
 const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyhiyutS5Q66_pIURGMRkUdx7JYEWlvcsFZSaIR29trz7dS8lOPrULm0sAGZPDuhAZj/exec';
@@ -902,6 +1100,11 @@ async function handleSubmit() {
     document.getElementById('playerEmail').focus();
     return;
   }
+  if (thirdSelected.size !== 8) {
+    alert(`Please select exactly 8 third-place teams to advance. You have ${thirdSelected.size} selected.`);
+    document.getElementById('thirdPlaceSection').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
 
   const btn = document.getElementById('submitBtn');
   btn.disabled = true;
@@ -912,17 +1115,19 @@ async function handleSubmit() {
     picks[letter] = state[letter].map(i => GROUPS[letter].teams[i].name);
   });
 
+  // Extract just team names from "G:TeamName" format
+  const thirdPlaceAdvancing = Array.from(thirdSelected).map(id => id.split(':')[1]);
+
   try {
     await fetch(SHEET_URL, {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, picks })
+      body: JSON.stringify({ name, email, picks, thirdPlace: thirdPlaceAdvancing })
     });
 
-    // no-cors means we can't read the response, but if no error thrown it sent
     document.getElementById('modalMsg').textContent =
-      `${name}, your picks for all 12 groups are locked in! Check your email for a summary. Good luck! 🏆`;
+      `${name}, your picks for all 12 groups and 8 wildcard teams are locked in! Good luck! 🏆`;
     document.getElementById('successModal').classList.add('show');
     btn.textContent = '✓ Picks Submitted';
     btn.style.background = 'linear-gradient(135deg, #2ecc71, #27ae60)';
@@ -937,6 +1142,7 @@ async function handleSubmit() {
 
 // Init
 buildGroups();
+buildThirdPlaceGrid();
 </script>
 </body>
 </html>
