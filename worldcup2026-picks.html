@@ -711,7 +711,7 @@
 <!-- Submit -->
 <div class="submit-section">
   <button class="submit-btn" id="submitBtn" onclick="handleSubmit()">Submit My Picks</button>
-  <div class="submit-note">You'll receive a confirmation summary after submitting. Picks are locked at tournament kickoff.</div>
+  <div class="submit-note">Picks are locked at tournament kickoff.</div>
 </div>
 
 <!-- Success Modal -->
@@ -1133,6 +1133,9 @@ async function handleSubmit() {
     document.getElementById('successModal').classList.add('show');
     btn.textContent = '✓ Picks Submitted';
     btn.style.background = 'linear-gradient(135deg, #2ecc71, #27ae60)';
+    // Clear selections so page looks fresh if they scroll back up
+    thirdSelected.clear();
+    Object.keys(state).forEach(l => { state[l] = GROUPS[l].teams.map((_,i) => i); });
 
   } catch (err) {
     btn.disabled = false;
