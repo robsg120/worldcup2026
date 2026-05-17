@@ -558,7 +558,7 @@
 // movement: 'up', 'down', 'same'
 let players = [];
 let currentPhase = 'overall';
-let csvUrl = localStorage.getItem('wc2026_csv') || '';
+let csvUrl = localStorage.getItem('wc2026_csv') || 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQxB6VDBC8_MukMTPPYht2Wl7LZFL2Nj7o6zDouGwHIBpus8yyw01wdjup0GBNWxWocKzr4S12I55g4/pub?gid=36878359&single=true&output=csv';
 
 if (csvUrl) {
   document.getElementById('csvUrl').value = csvUrl;
