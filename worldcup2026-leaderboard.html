@@ -606,10 +606,11 @@ function parseCSV(text) {
   // Detect columns from header row
   // Scores sheet: Rank, Name, Email, Group Score, 3rd Place Score, Total Score, Breakdown
   const header = rows[0].map(h => h.toLowerCase());
-  const nameCol     = header.findIndex(h => h === 'name');
-  const totalCol    = header.findIndex(h => h.includes('total'));
-  const groupCol    = header.findIndex(h => h.includes('group'));
-  const knockoutCol = header.findIndex(h => h.includes('knockout'));
+  const nameCol      = header.findIndex(h => h === 'name');
+  const totalCol     = header.findIndex(h => h.includes('total'));
+  const groupCol     = header.findIndex(h => h.includes('group'));
+  const thirdCol     = header.findIndex(h => h.includes('3rd'));
+  const knockoutCol  = header.findIndex(h => h.includes('knockout'));
 
   players = [];
 
@@ -619,7 +620,9 @@ function parseCSV(text) {
     if (!nm || nm === 'Name') continue;
 
     const totalScore    = totalCol >= 0    ? (parseInt(row[totalCol])    || 0) : 0;
-    const groupScore    = groupCol >= 0    ? (parseInt(row[groupCol])    || 0) : 0;
+    const groupScoreRaw = groupCol >= 0    ? (parseInt(row[groupCol])    || 0) : 0;
+    const thirdScore    = thirdCol >= 0    ? (parseInt(row[thirdCol])    || 0) : 0;
+    const groupScore    = groupScoreRaw + thirdScore; // wildcards are part of group phase
     const knockoutScore = knockoutCol >= 0 ? (parseInt(row[knockoutCol]) || 0) : 0;
 
     players.push({ name: nm, totalScore, groupScore, knockoutScore, movement: 'same' });
