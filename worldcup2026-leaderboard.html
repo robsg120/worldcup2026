@@ -697,16 +697,31 @@ function renderTable() {
     return;
   }
 
+  // Standard competition ranking: ties share the same rank,
+  // next distinct score skips ahead to the count of players seen so far + 1
+  let lastScore = null;
+  let lastRank = 0;
+
   const rows = sorted.map((p, i) => {
-    const rankClass = i < 3 ? `rank-${i+1}` : '';
+    const score = getScore(p);
+    let rank;
+    if (score === lastScore) {
+      rank = lastRank; // tie — same rank as previous
+    } else {
+      rank = i + 1; // standard competition ranking
+      lastScore = score;
+      lastRank = rank;
+    }
+
+    const rankClass = rank <= 3 ? `rank-${rank}` : '';
     const movIcon = p.movement === 'up' ? '▲' : p.movement === 'down' ? '▼' : '–';
     const movClass = p.movement;
 
     return `
       <tr>
-        <td class="rank-cell ${rankClass}">${i + 1}</td>
+        <td class="rank-cell ${rankClass}">${rank}</td>
         <td class="name-cell">${p.name}</td>
-        <td class="score-cell right">${getScore(p)}</td>
+        <td class="score-cell right">${score}</td>
         <td class="right hide-mobile phase-score">${p.groupScore}</td>
         <td class="right hide-mobile phase-score">${p.knockoutScore}</td>
         <td class="center hide-mobile"><span class="movement ${movClass}">${movIcon}</span></td>
