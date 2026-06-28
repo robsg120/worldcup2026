@@ -7,76 +7,78 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0f1e; --surface: #111827; --card: #1a2235; --border: #2a3a55;
-    --gold: #f5c842; --gold2: #e8a820; --green: #2ecc71; --text: #e8edf5;
-    --muted: #8896a8; --accent: #3b82f6; --red: #e84040;
+    --bg:#0a0f1e;--surface:#111827;--card:#1a2235;--border:#2a3a55;
+    --gold:#f5c842;--gold2:#e8a820;--green:#2ecc71;--text:#e8edf5;
+    --muted:#8896a8;--accent:#3b82f6;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; background-image: radial-gradient(ellipse at 20% 0%, #1a2a4a 0%, transparent 60%); }
-  header { text-align: center; padding: 40px 20px 24px; border-bottom: 1px solid var(--border); }
-  .trophy { font-size: 44px; display: block; margin-bottom: 10px; }
-  header h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(32px, 7vw, 64px); letter-spacing: 4px; color: var(--gold); line-height: 1; }
-  header h2 { font-size: 12px; letter-spacing: 6px; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;background-image:radial-gradient(ellipse at 20% 0%,#1a2a4a 0%,transparent 60%);}
+  header{text-align:center;padding:36px 20px 20px;border-bottom:1px solid var(--border);}
+  .trophy{font-size:40px;display:block;margin-bottom:8px;}
+  header h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(30px,7vw,60px);letter-spacing:4px;color:var(--gold);line-height:1;}
+  header h2{font-size:11px;letter-spacing:6px;text-transform:uppercase;color:var(--muted);margin-top:5px;}
+  .scoring-row{display:flex;justify-content:center;gap:6px;padding:12px 16px;flex-wrap:wrap;border-bottom:1px solid var(--border);}
+  .pill{padding:4px 10px;border-radius:99px;font-size:11px;font-weight:500;border:1px solid;}
+  .p1{background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.3);color:#60a5fa;}
+  .p2{background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.3);color:#a78bfa;}
+  .p3{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.3);color:#fbbf24;}
+  .p4{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3);color:#f87171;}
+  .p5{background:rgba(245,200,66,.1);border-color:rgba(245,200,66,.3);color:var(--gold);}
 
-  .scoring-row { display: flex; justify-content: center; gap: 8px; padding: 16px 20px; flex-wrap: wrap; border-bottom: 1px solid var(--border); }
-  .pill { padding: 5px 12px; border-radius: 99px; font-size: 11px; font-weight: 500; letter-spacing: 0.5px; border: 1px solid; }
-  .p1 { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.3); color: #60a5fa; }
-  .p2 { background: rgba(139,92,246,0.1); border-color: rgba(139,92,246,0.3); color: #a78bfa; }
-  .p3 { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); color: #fbbf24; }
-  .p4 { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); color: #f87171; }
-  .p5 { background: rgba(245,200,66,0.1); border-color: rgba(245,200,66,0.3); color: var(--gold); }
+  .info-section{max-width:600px;margin:24px auto 0;padding:0 16px;}
+  .section-label{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;color:var(--gold);margin-bottom:8px;}
+  .info-row{display:flex;gap:10px;}
+  .info-row input{flex:1;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s;}
+  .info-row input:focus{border-color:var(--accent);}
 
-  .info-section { max-width: 640px; margin: 28px auto 0; padding: 0 20px; }
-  .info-label { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--gold); margin-bottom: 10px; }
-  .info-row { display: flex; gap: 12px; }
-  .info-row input { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; outline: none; transition: border-color 0.2s; }
-  .info-row input:focus { border-color: var(--accent); }
+  .prog-wrap{max-width:600px;margin:16px auto 0;padding:0 16px;}
+  .prog-bg{background:var(--surface);border:1px solid var(--border);border-radius:99px;height:7px;overflow:hidden;margin-top:5px;}
+  .prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--gold));border-radius:99px;transition:width .3s;}
+  .prog-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px;}
 
-  .rounds { max-width: 960px; margin: 28px auto; padding: 0 20px; }
+  /* Round sections */
+  .rounds-container{max-width:1100px;margin:24px auto 0;padding:0 16px;}
+  .round-section{margin-bottom:24px;}
+  .round-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .round-badge{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:2px;padding:3px 12px;border-radius:99px;border:1px solid;}
+  .rb-r32{background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.4);color:#60a5fa;}
+  .rb-r16{background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.4);color:#a78bfa;}
+  .rb-qf{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.4);color:#fbbf24;}
+  .rb-sf{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.4);color:#f87171;}
+  .rb-3rd{background:rgba(46,204,113,.1);border-color:rgba(46,204,113,.4);color:var(--green);}
+  .rb-final{background:rgba(245,200,66,.1);border-color:rgba(245,200,66,.4);color:var(--gold);}
+  .round-pts{font-size:11px;color:var(--muted);margin-left:auto;}
 
-  .round-block { margin-bottom: 28px; }
-  .round-title { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-  .round-badge { font-family: 'Bebas Neue', sans-serif; font-size: 14px; letter-spacing: 2px; padding: 4px 14px; border-radius: 99px; border: 1px solid; }
-  .rb-r32   { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.4); color: #60a5fa; }
-  .rb-r16   { background: rgba(139,92,246,0.1); border-color: rgba(139,92,246,0.4); color: #a78bfa; }
-  .rb-qf    { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.4); color: #fbbf24; }
-  .rb-sf    { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.4); color: #f87171; }
-  .rb-3rd   { background: rgba(46,204,113,0.1); border-color: rgba(46,204,113,0.4); color: var(--green); }
-  .rb-final { background: rgba(245,200,66,0.1); border-color: rgba(245,200,66,0.4); color: var(--gold); }
-  .round-pts { font-size: 12px; color: var(--muted); margin-left: auto; letter-spacing: 0.5px; }
+  .matches-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;}
 
-  .matches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+  .match-card{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .15s;}
+  .match-card.picked{border-color:rgba(245,200,66,.4);}
+  .match-card.locked{opacity:.55;}
+  .match-header{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:6px 11px 5px;background:var(--surface);border-bottom:1px solid var(--border);}
+  .match-body{padding:5px;display:flex;flex-direction:column;gap:2px;}
 
-  .match-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: border-color 0.15s; }
-  .match-card.picked { border-color: rgba(245,200,66,0.4); }
-  .match-header { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); padding: 7px 12px 6px; background: var(--surface); border-bottom: 1px solid var(--border); }
-  .match-body { padding: 6px; display: flex; flex-direction: column; gap: 2px; }
+  .team-btn{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:6px;cursor:pointer;border:1px solid transparent;transition:all .12s;-webkit-tap-highlight-color:transparent;touch-action:manipulation;background:none;width:100%;text-align:left;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;min-height:38px;}
+  .team-btn:hover:not(:disabled){background:rgba(255,255,255,.04);}
+  .team-btn.selected{background:rgba(245,200,66,.12);border-color:rgba(245,200,66,.4);}
+  .team-btn:disabled{cursor:default;color:var(--muted);}
+  .team-btn.tbd{color:var(--muted);font-style:italic;}
+  .radio{width:15px;height:15px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .12s;}
+  .team-btn.selected .radio{border-color:var(--gold);background:var(--gold);}
+  .team-btn.selected .radio::after{content:'';width:5px;height:5px;border-radius:50%;background:#000;display:block;}
+  .vs{text-align:center;font-size:9px;letter-spacing:3px;color:var(--border);}
 
-  .team-btn { display: flex; align-items: center; gap: 9px; padding: 9px 10px; border-radius: 6px; cursor: pointer; border: 1px solid transparent; transition: all 0.12s; -webkit-tap-highlight-color: transparent; touch-action: manipulation; background: none; width: 100%; text-align: left; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; }
-  .team-btn:hover { background: rgba(255,255,255,0.04); }
-  .team-btn.selected { background: rgba(245,200,66,0.1); border-color: rgba(245,200,66,0.4); }
-  .radio { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.12s; }
-  .team-btn.selected .radio { border-color: var(--gold); background: var(--gold); }
-  .team-btn.selected .radio::after { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #000; display: block; }
-  .vs { text-align: center; font-size: 9px; letter-spacing: 3px; color: var(--border); }
+  .submit-wrap{max-width:600px;margin:8px auto 60px;padding:0 16px;}
+  .submit-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:10px;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:4px;color:#000;cursor:pointer;transition:all .2s;}
+  .submit-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(245,200,66,.3);}
+  .submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
+  .submit-note{text-align:center;font-size:11px;color:var(--muted);margin-top:7px;}
 
-  .progress-wrap { max-width: 640px; margin: 0 auto 20px; padding: 0 20px; }
-  .prog-bar-bg { background: var(--surface); border: 1px solid var(--border); border-radius: 99px; height: 8px; overflow: hidden; margin-top: 6px; }
-  .prog-bar { height: 100%; background: linear-gradient(90deg, var(--accent), var(--gold)); border-radius: 99px; transition: width 0.3s; }
-  .prog-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-top: 5px; }
-
-  .submit-wrap { max-width: 640px; margin: 0 auto 60px; padding: 0 20px; }
-  .submit-btn { width: 100%; padding: 17px; background: linear-gradient(135deg, var(--gold), var(--gold2)); border: none; border-radius: 10px; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 4px; color: #000; cursor: pointer; transition: all 0.2s; }
-  .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(245,200,66,0.3); }
-  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
-  .submit-note { text-align: center; font-size: 12px; color: var(--muted); margin-top: 8px; }
-
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
-  .modal-overlay.show { display: flex; }
-  .modal { background: var(--card); border: 1px solid var(--border); border-radius: 16px; max-width: 480px; width: 100%; padding: 36px; text-align: center; }
-  .modal h2 { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 3px; color: var(--gold); margin: 12px 0 8px; }
-  .modal p { color: var(--muted); font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
-  .modal-close { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 22px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; cursor: pointer; }
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;align-items:center;justify-content:center;padding:20px;}
+  .modal-overlay.show{display:flex;}
+  .modal{background:var(--card);border:1px solid var(--border);border-radius:14px;max-width:460px;width:100%;padding:32px;text-align:center;}
+  .modal h2{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:3px;color:var(--gold);margin:10px 0 7px;}
+  .modal p{color:var(--muted);font-size:13px;line-height:1.6;margin-bottom:18px;}
+  .modal-close{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:9px 20px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;}
 </style>
 </head>
 <body>
@@ -88,37 +90,37 @@
 </header>
 
 <div class="scoring-row">
-  <span class="pill p1">Round of 32 — 2pts</span>
-  <span class="pill p2">Round of 16 — 3pts</span>
-  <span class="pill p3">Quarterfinals — 6pts</span>
-  <span class="pill p4">Semifinals — 8pts</span>
+  <span class="pill p1">R32 — 2pts</span>
+  <span class="pill p2">R16 — 3pts</span>
+  <span class="pill p3">QF — 6pts</span>
+  <span class="pill p4">SF — 8pts</span>
   <span class="pill p5">3rd Place — 6pts &nbsp;·&nbsp; Final — 14pts</span>
 </div>
 
 <div class="info-section">
-  <div class="info-label">Your Info</div>
+  <div class="section-label">Your Info</div>
   <div class="info-row">
-    <input type="text" id="playerName" placeholder="Full Name *" />
-    <input type="email" id="playerEmail" placeholder="Email Address *" />
+    <input type="text" id="playerName" placeholder="Full Name *"/>
+    <input type="email" id="playerEmail" placeholder="Email *"/>
   </div>
 </div>
 
-<div style="max-width:640px;margin:20px auto 0;padding:0 20px;">
-  <div class="info-label">Progress</div>
-  <div class="prog-bar-bg"><div class="prog-bar" id="progBar" style="width:0%"></div></div>
+<div class="prog-wrap">
+  <div class="section-label" style="margin-top:16px;">Progress</div>
+  <div class="prog-bg"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
   <div class="prog-labels"><span id="progText">0 of 48 matches picked</span><span id="progPct">0%</span></div>
 </div>
 
-<div class="rounds" id="roundsContainer"></div>
+<div class="rounds-container" id="roundsContainer"></div>
 
 <div class="submit-wrap">
   <button class="submit-btn" id="submitBtn" onclick="handleSubmit()">Submit Knockout Picks</button>
-  <div class="submit-note">Picks locked at first kickoff Sunday. You may resubmit to update before then.</div>
+  <div class="submit-note">Pick every match — winners auto-advance to the next round as you go.</div>
 </div>
 
 <div class="modal-overlay" id="modal">
   <div class="modal">
-    <div style="font-size:52px">🎉</div>
+    <div style="font-size:48px">🎉</div>
     <h2>Picks Submitted!</h2>
     <p id="modalMsg">Your knockout bracket is locked in. Good luck!</p>
     <button class="modal-close" onclick="document.getElementById('modal').classList.remove('show')">Close</button>
@@ -126,159 +128,232 @@
 </div>
 
 <script>
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyhiyutS5Q66_pIURGMRkUdx7JYEWlvcsFZSaIR29trz7dS8lOPrULm0sAGZPDuhAZj/exec';
+const SHEET_URL='https://script.google.com/macros/s/AKfycbyhiyutS5Q66_pIURGMRkUdx7JYEWlvcsFZSaIR29trz7dS8lOPrULm0sAGZPDuhAZj/exec';
+
+// Bracket structure: each match has an id, label, and slots for team1/team2
+// feedsInto: [matchId, slot(1or2)] — when this match is won, winner goes to that slot
+const BRACKET = {
+  // Round of 32
+  r32_1:  {label:'Match 73  |  Jun 28',t1:'South Africa',       t2:'Canada',               feedsInto:['r16_1',1]},
+  r32_2:  {label:'Match 74  |  Jun 29',t1:'Germany',            t2:'Paraguay',             feedsInto:['r16_2',1]},
+  r32_3:  {label:'Match 75  |  Jun 30',t1:'Netherlands',        t2:'Morocco',              feedsInto:['r16_1',2]},
+  r32_4:  {label:'Match 76  |  Jun 29',t1:'Brazil',             t2:'Japan',                feedsInto:['r16_2',2]},
+  r32_5:  {label:'Match 77  |  Jun 30',t1:'France',             t2:'Sweden',               feedsInto:['r16_3',1]},
+  r32_6:  {label:'Match 78  |  Jun 30',t1:'Ivory Coast',        t2:'Norway',               feedsInto:['r16_4',1]},
+  r32_7:  {label:'Match 79  |  Jun 30',t1:'Mexico',             t2:'Ecuador',              feedsInto:['r16_3',2]},
+  r32_8:  {label:'Match 80  |  Jul 1', t1:'England',            t2:'DR Congo',             feedsInto:['r16_4',2]},
+  r32_9:  {label:'Match 81  |  Jul 1', t1:'Belgium',            t2:'Senegal',              feedsInto:['r16_5',2]},
+  r32_10: {label:'Match 82  |  Jul 1', t1:'USA',                t2:'Bosnia & Herzegovina', feedsInto:['r16_5',1]},
+  r32_11: {label:'Match 83  |  Jul 2', t1:'Spain',              t2:'Austria',              feedsInto:['r16_6',2]},
+  r32_12: {label:'Match 84  |  Jul 2', t1:'Portugal',           t2:'Croatia',              feedsInto:['r16_6',1]},
+  r32_13: {label:'Match 85  |  Jul 2', t1:'Switzerland',        t2:'Algeria',              feedsInto:['r16_7',2]},
+  r32_14: {label:'Match 86  |  Jul 3', t1:'Argentina',          t2:'Cape Verde',           feedsInto:['r16_8',1]},
+  r32_15: {label:'Match 87  |  Jul 3', t1:'Colombia',           t2:'Ghana',                feedsInto:['r16_7',1]},
+  r32_16: {label:'Match 88  |  Jul 3', t1:'Australia',          t2:'Egypt',                feedsInto:['r16_8',2]},
+
+  // Round of 16
+  r16_1:  {label:'R16 Match 1  |  Jul 4', t1:null,t2:null, feedsInto:['qf_1',1]},
+  r16_2:  {label:'R16 Match 2  |  Jul 4', t1:null,t2:null, feedsInto:['qf_1',2]},
+  r16_3:  {label:'R16 Match 3  |  Jul 5', t1:null,t2:null, feedsInto:['qf_2',1]},
+  r16_4:  {label:'R16 Match 4  |  Jul 5', t1:null,t2:null, feedsInto:['qf_2',2]},
+  r16_5:  {label:'R16 Match 5  |  Jul 6', t1:null,t2:null, feedsInto:['qf_3',1]},
+  r16_6:  {label:'R16 Match 6  |  Jul 6', t1:null,t2:null, feedsInto:['qf_3',2]},
+  r16_7:  {label:'R16 Match 7  |  Jul 7', t1:null,t2:null, feedsInto:['qf_4',1]},
+  r16_8:  {label:'R16 Match 8  |  Jul 7', t1:null,t2:null, feedsInto:['qf_4',2]},
+
+  // Quarterfinals
+  qf_1: {label:'QF 1  |  Jul 9',  t1:null,t2:null, feedsInto:['sf_1',1]},
+  qf_2: {label:'QF 2  |  Jul 11', t1:null,t2:null, feedsInto:['sf_1',2]},
+  qf_3: {label:'QF 3  |  Jul 10', t1:null,t2:null, feedsInto:['sf_2',1]},
+  qf_4: {label:'QF 4  |  Jul 11', t1:null,t2:null, feedsInto:['sf_2',2]},
+
+  // Semifinals
+  sf_1: {label:'SF 1  |  Jul 14', t1:null,t2:null, feedsInto:['final_1',1], feedsLoser:['third_1',1]},
+  sf_2: {label:'SF 2  |  Jul 15', t1:null,t2:null, feedsInto:['final_1',2], feedsLoser:['third_1',2]},
+
+  // 3rd Place & Final
+  third_1: {label:'3rd Place  |  Jul 18  |  Miami', t1:null, t2:null, feedsInto:null},
+  final_1: {label:'⭐ Final  |  Jul 19  |  MetLife Stadium', t1:null, t2:null, feedsInto:null},
+};
 
 const ROUNDS = [
-  {
-    id: 'r32', label: 'Round of 32', badge: 'rb-r32', pts: '2 pts per correct pick',
-    matches: [
-      { id:'r32_1',  label:'Match 73  |  Jun 28', t1:'South Africa',         t2:'Canada' },
-      { id:'r32_2',  label:'Match 74  |  Jun 29', t1:'Germany',              t2:'Paraguay' },
-      { id:'r32_3',  label:'Match 75  |  Jun 30', t1:'Netherlands',          t2:'Morocco' },
-      { id:'r32_4',  label:'Match 76  |  Jun 29', t1:'Brazil',               t2:'Japan' },
-      { id:'r32_5',  label:'Match 77  |  Jun 30', t1:'France',               t2:'Sweden' },
-      { id:'r32_6',  label:'Match 78  |  Jun 30', t1:'Ivory Coast',          t2:'Norway' },
-      { id:'r32_7',  label:'Match 79  |  Jun 30', t1:'Mexico',               t2:'Ecuador' },
-      { id:'r32_8',  label:'Match 80  |  Jul 1',  t1:'England',              t2:'DR Congo' },
-      { id:'r32_9',  label:'Match 81  |  Jul 1',  t1:'Belgium',              t2:'Senegal' },
-      { id:'r32_10', label:'Match 82  |  Jul 1',  t1:'USA',                  t2:'Bosnia & Herzegovina' },
-      { id:'r32_11', label:'Match 83  |  Jul 2',  t1:'Spain',                t2:'Austria' },
-      { id:'r32_12', label:'Match 84  |  Jul 2',  t1:'Portugal',             t2:'Croatia' },
-      { id:'r32_13', label:'Match 85  |  Jul 2',  t1:'Switzerland',          t2:'Algeria' },
-      { id:'r32_14', label:'Match 86  |  Jul 3',  t1:'Argentina',            t2:'Cape Verde' },
-      { id:'r32_15', label:'Match 87  |  Jul 3',  t1:'Colombia',             t2:'Ghana' },
-      { id:'r32_16', label:'Match 88  |  Jul 3',  t1:'Australia',            t2:'Egypt' },
-    ]
-  },
-  {
-    id: 'r16', label: 'Round of 16', badge: 'rb-r16', pts: '3 pts per correct pick',
-    matches: [
-      { id:'r16_1', label:'W74 vs W77', t1:'Winner: Germany/Paraguay',       t2:'Winner: France/Sweden' },
-      { id:'r16_2', label:'W73 vs W75', t1:'Winner: S.Africa/Canada',        t2:'Winner: Netherlands/Morocco' },
-      { id:'r16_3', label:'W79 vs W80', t1:'Winner: Mexico/Ecuador',         t2:'Winner: England/DR Congo' },
-      { id:'r16_4', label:'W76 vs W78', t1:'Winner: Brazil/Japan',           t2:'Winner: Ivory Coast/Norway' },
-      { id:'r16_5', label:'W83 vs W84', t1:'Winner: Portugal/Croatia',       t2:'Winner: Spain/Austria' },
-      { id:'r16_6', label:'W81 vs W82', t1:'Winner: USA/Bosnia',             t2:'Winner: Belgium/Senegal' },
-      { id:'r16_7', label:'W86 vs W88', t1:'Winner: Argentina/Cape Verde',   t2:'Winner: Australia/Egypt' },
-      { id:'r16_8', label:'W85 vs W87', t1:'Winner: Switzerland/Algeria',    t2:'Winner: Colombia/Ghana' },
-    ]
-  },
-  {
-    id: 'qf', label: 'Quarterfinals', badge: 'rb-qf', pts: '6 pts per correct pick',
-    matches: [
-      { id:'qf_1', label:'QF 1', t1:'Winner R16 Match 1', t2:'Winner R16 Match 2' },
-      { id:'qf_2', label:'QF 2', t1:'Winner R16 Match 3', t2:'Winner R16 Match 4' },
-      { id:'qf_3', label:'QF 3', t1:'Winner R16 Match 5', t2:'Winner R16 Match 6' },
-      { id:'qf_4', label:'QF 4', t1:'Winner R16 Match 7', t2:'Winner R16 Match 8' },
-    ]
-  },
-  {
-    id: 'sf', label: 'Semifinals', badge: 'rb-sf', pts: '8 pts per correct pick',
-    matches: [
-      { id:'sf_1', label:'SF 1', t1:'Winner QF 1', t2:'Winner QF 2' },
-      { id:'sf_2', label:'SF 2', t1:'Winner QF 3', t2:'Winner QF 4' },
-    ]
-  },
-  {
-    id: 'third', label: '3rd Place Match', badge: 'rb-3rd', pts: '6 pts',
-    matches: [
-      { id:'third_1', label:'3rd Place  |  Jul 18', t1:'SF 1 Loser', t2:'SF 2 Loser' },
-    ]
-  },
-  {
-    id: 'final', label: 'Final', badge: 'rb-final', pts: '14 pts',
-    matches: [
-      { id:'final_1', label:'Final  |  Jul 19  |  MetLife Stadium', t1:'SF 1 Winner', t2:'SF 2 Winner' },
-    ]
-  },
+  {id:'r32',  label:'Round of 32',   badge:'rb-r32',   pts:'2 pts',  ids:['r32_1','r32_2','r32_3','r32_4','r32_5','r32_6','r32_7','r32_8','r32_9','r32_10','r32_11','r32_12','r32_13','r32_14','r32_15','r32_16']},
+  {id:'r16',  label:'Round of 16',   badge:'rb-r16',   pts:'3 pts',  ids:['r16_1','r16_2','r16_3','r16_4','r16_5','r16_6','r16_7','r16_8']},
+  {id:'qf',   label:'Quarterfinals', badge:'rb-qf',    pts:'6 pts',  ids:['qf_1','qf_2','qf_3','qf_4']},
+  {id:'sf',   label:'Semifinals',    badge:'rb-sf',    pts:'8 pts',  ids:['sf_1','sf_2']},
+  {id:'late', label:'3rd Place & Final', badge:'rb-final', pts:'6 / 14 pts', ids:['third_1','final_1']},
 ];
 
-const picks = {};
-const TOTAL = ROUNDS.reduce((s, r) => s + r.matches.length, 0);
+const picks = {}; // matchId -> winner team name
+const losers = {}; // matchId -> loser (for 3rd place)
+const TOTAL = Object.keys(BRACKET).length; // 48
 
-function buildRounds() {
+function buildUI() {
   const container = document.getElementById('roundsContainer');
   ROUNDS.forEach(round => {
-    const block = document.createElement('div');
-    block.className = 'round-block';
-    block.innerHTML = `
-      <div class="round-title">
-        <span class="round-badge ${round.badge}">${round.label}</span>
-        <span class="round-pts">${round.pts}</span>
-      </div>
-      <div class="matches-grid" id="grid-${round.id}"></div>
-    `;
-    container.appendChild(block);
-
-    const grid = block.querySelector(`#grid-${round.id}`);
-    round.matches.forEach(m => grid.appendChild(buildCard(m)));
+    const sec = document.createElement('div');
+    sec.className = 'round-section';
+    sec.innerHTML = `<div class="round-header"><span class="round-badge ${round.badge}">${round.label}</span><span class="round-pts">${round.pts} per correct pick</span></div><div class="matches-grid" id="grid-${round.id}"></div>`;
+    container.appendChild(sec);
+    const grid = sec.querySelector(`#grid-${round.id}`);
+    round.ids.forEach(id => grid.appendChild(buildCard(id)));
   });
 }
 
-function buildCard(m) {
+function buildCard(id) {
+  const m = BRACKET[id];
   const card = document.createElement('div');
   card.className = 'match-card';
-  card.id = `card-${m.id}`;
+  card.id = `card-${id}`;
+
+  const t1 = m.t1 || 'TBD';
+  const t2 = m.t2 || 'TBD';
+  const isTBD = !m.t1 || !m.t2;
+
   card.innerHTML = `
     <div class="match-header">${m.label}</div>
     <div class="match-body">
-      <button class="team-btn" onclick="pick('${m.id}','${m.t1.replace(/'/g,"\\'")}',this)">
-        <div class="radio"></div><span>${m.t1}</span>
+      <button class="team-btn${isTBD?' tbd':''}" id="btn-${id}-1" onclick="selectWinner('${id}',1)" ${isTBD?'disabled':''}>
+        <div class="radio"></div><span id="t1-${id}">${t1}</span>
       </button>
       <div class="vs">VS</div>
-      <button class="team-btn" onclick="pick('${m.id}','${m.t2.replace(/'/g,"\\'")}',this)">
-        <div class="radio"></div><span>${m.t2}</span>
+      <button class="team-btn${isTBD?' tbd':''}" id="btn-${id}-2" onclick="selectWinner('${id}',2)" ${isTBD?'disabled':''}>
+        <div class="radio"></div><span id="t2-${id}">${t2}</span>
       </button>
-    </div>
-  `;
+    </div>`;
   return card;
 }
 
-function pick(matchId, team, btn) {
-  picks[matchId] = team;
+function selectWinner(matchId, slot) {
+  const m = BRACKET[matchId];
+  const winner = slot === 1 ? m.t1 : m.t2;
+  const loser  = slot === 1 ? m.t2 : m.t1;
+  if (!winner || winner === 'TBD') return;
+
+  // If repicking, clear downstream picks
+  if (picks[matchId] && picks[matchId] !== winner) {
+    clearDownstream(matchId);
+  }
+
+  picks[matchId] = winner;
+  losers[matchId] = loser;
+
+  // Update card UI
   const card = document.getElementById(`card-${matchId}`);
   card.classList.add('picked');
-  card.querySelectorAll('.team-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
+  document.getElementById(`btn-${matchId}-1`).classList.toggle('selected', slot===1);
+  document.getElementById(`btn-${matchId}-2`).classList.toggle('selected', slot===2);
+
+  // Feed winner into next match
+  if (m.feedsInto) {
+    const [nextId, nextSlot] = m.feedsInto;
+    propagate(nextId, nextSlot, winner);
+  }
+
+  // Feed loser into 3rd place match (from semis)
+  if (m.feedsLoser && loser) {
+    const [thirdId, thirdSlot] = m.feedsLoser;
+    propagate(thirdId, thirdSlot, loser);
+  }
+
   updateProgress();
+}
+
+function propagate(matchId, slot, team) {
+  const m = BRACKET[matchId];
+  if (slot === 1) m.t1 = team;
+  else m.t2 = team;
+
+  // Update button text and enable
+  const btnId = `btn-${matchId}-${slot}`;
+  const btn = document.getElementById(btnId);
+  if (btn) {
+    document.getElementById(`t${slot}-${matchId}`).textContent = team;
+    btn.disabled = false;
+    btn.classList.remove('tbd');
+  }
+
+  // If both slots filled, enable card
+  if (m.t1 && m.t2 && m.t1 !== 'TBD' && m.t2 !== 'TBD') {
+    const btn1 = document.getElementById(`btn-${matchId}-1`);
+    const btn2 = document.getElementById(`btn-${matchId}-2`);
+    if (btn1) { btn1.disabled = false; btn1.classList.remove('tbd'); }
+    if (btn2) { btn2.disabled = false; btn2.classList.remove('tbd'); }
+  }
+
+  // If this match already had a pick, check if it's still valid
+  if (picks[matchId]) {
+    const currentPick = picks[matchId];
+    if (currentPick !== m.t1 && currentPick !== m.t2) {
+      // Pick is no longer valid, clear it
+      clearDownstream(matchId);
+      delete picks[matchId];
+      delete losers[matchId];
+      document.getElementById(`card-${matchId}`).classList.remove('picked');
+      document.getElementById(`btn-${matchId}-1`).classList.remove('selected');
+      document.getElementById(`btn-${matchId}-2`).classList.remove('selected');
+    }
+  }
+}
+
+function clearDownstream(matchId) {
+  const m = BRACKET[matchId];
+  // Clear the next match this feeds into
+  if (m.feedsInto) {
+    const [nextId, nextSlot] = m.feedsInto;
+    const nm = BRACKET[nextId];
+    if (nextSlot===1) nm.t1=null; else nm.t2=null;
+    const btn = document.getElementById(`btn-${nextId}-${nextSlot}`);
+    const span = document.getElementById(`t${nextSlot}-${nextId}`);
+    if (btn) { btn.disabled=true; btn.classList.add('tbd'); btn.classList.remove('selected'); }
+    if (span) span.textContent='TBD';
+    if (picks[nextId]) { clearDownstream(nextId); delete picks[nextId]; delete losers[nextId]; document.getElementById(`card-${nextId}`).classList.remove('picked'); document.getElementById(`btn-${nextId}-1`).classList.remove('selected'); document.getElementById(`btn-${nextId}-2`).classList.remove('selected'); }
+  }
+  // Clear 3rd place if semifinal
+  if (m.feedsLoser) {
+    const [thirdId, thirdSlot] = m.feedsLoser;
+    const tm = BRACKET[thirdId];
+    if (thirdSlot===1) tm.t1=null; else tm.t2=null;
+    const btn = document.getElementById(`btn-${thirdId}-${thirdSlot}`);
+    const span = document.getElementById(`t${thirdSlot}-${thirdId}`);
+    if (btn) { btn.disabled=true; btn.classList.add('tbd'); btn.classList.remove('selected'); }
+    if (span) span.textContent='TBD';
+    if (picks[thirdId]) { delete picks[thirdId]; document.getElementById(`card-${thirdId}`).classList.remove('picked'); document.getElementById(`btn-${thirdId}-1`).classList.remove('selected'); document.getElementById(`btn-${thirdId}-2`).classList.remove('selected'); }
+  }
 }
 
 function updateProgress() {
   const done = Object.keys(picks).length;
-  const pct = Math.round(done / TOTAL * 100);
-  document.getElementById('progBar').style.width = pct + '%';
+  const pct = Math.round(done/TOTAL*100);
+  document.getElementById('progFill').style.width = pct+'%';
   document.getElementById('progText').textContent = `${done} of ${TOTAL} matches picked`;
-  document.getElementById('progPct').textContent = pct + '%';
+  document.getElementById('progPct').textContent = pct+'%';
 }
 
 async function handleSubmit() {
   const name  = document.getElementById('playerName').value.trim();
   const email = document.getElementById('playerEmail').value.trim();
   if (!name)  { alert('Please enter your name.'); return; }
-  if (!email || !email.includes('@')) { alert('Please enter a valid email address.'); return; }
+  if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
   const done = Object.keys(picks).length;
-  if (done < TOTAL) { alert(`Please pick a winner for all ${TOTAL} matches. You have ${done} of ${TOTAL} done.`); return; }
+  if (done < TOTAL) { alert(`Please pick all ${TOTAL} matches. You have ${done} of ${TOTAL}.`); return; }
 
   const btn = document.getElementById('submitBtn');
-  btn.disabled = true; btn.textContent = 'Submitting...';
+  btn.disabled=true; btn.textContent='Submitting...';
 
   try {
-    await fetch(SHEET_URL, {
-      method: 'POST', mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: 'knockout', name, email, picks })
-    });
-    document.getElementById('modalMsg').textContent = `${name}, your knockout bracket is locked in! Good luck! 🏆`;
+    await fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'knockout',name,email,picks})});
+    document.getElementById('modalMsg').textContent=`${name}, your bracket is locked in! Good luck! 🏆`;
     document.getElementById('modal').classList.add('show');
-    btn.textContent = '✓ Picks Submitted';
-    btn.style.background = 'linear-gradient(135deg,#2ecc71,#27ae60)';
-  } catch(err) {
-    btn.disabled = false; btn.textContent = 'Submit Knockout Picks';
+    btn.textContent='✓ Picks Submitted';
+    btn.style.background='linear-gradient(135deg,#2ecc71,#27ae60)';
+  } catch(e) {
+    btn.disabled=false; btn.textContent='Submit Knockout Picks';
     alert('Something went wrong. Please try again.');
   }
 }
 
-buildRounds();
+buildUI();
 </script>
 </body>
 </html>
