@@ -133,51 +133,53 @@ const SHEET_URL='https://script.google.com/macros/s/AKfycbzH8FYx_zBvGH0ePkDYxjis
 // Bracket structure: each match has an id, label, and slots for team1/team2
 // feedsInto: [matchId, slot(1or2)] — when this match is won, winner goes to that slot
 const BRACKET = {
-  // Round of 32
-  r32_1:  {label:'Match 73  |  Jun 28',t1:'South Africa',       t2:'Canada',               feedsInto:['r16_1',1]},
-  r32_2:  {label:'Match 74  |  Jun 29',t1:'Germany',            t2:'Paraguay',             feedsInto:['r16_2',1]},
-  r32_3:  {label:'Match 75  |  Jun 30',t1:'Netherlands',        t2:'Morocco',              feedsInto:['r16_1',2]},
-  r32_4:  {label:'Match 76  |  Jun 29',t1:'Brazil',             t2:'Japan',                feedsInto:['r16_2',2]},
-  r32_5:  {label:'Match 77  |  Jun 30',t1:'France',             t2:'Sweden',               feedsInto:['r16_3',1]},
-  r32_6:  {label:'Match 78  |  Jun 30',t1:'Ivory Coast',        t2:'Norway',               feedsInto:['r16_4',1]},
-  r32_7:  {label:'Match 79  |  Jun 30',t1:'Mexico',             t2:'Ecuador',              feedsInto:['r16_3',2]},
-  r32_8:  {label:'Match 80  |  Jul 1', t1:'England',            t2:'DR Congo',             feedsInto:['r16_4',2]},
-  r32_9:  {label:'Match 81  |  Jul 1', t1:'Belgium',            t2:'Senegal',              feedsInto:['r16_5',2]},
-  r32_10: {label:'Match 82  |  Jul 1', t1:'USA',                t2:'Bosnia & Herzegovina', feedsInto:['r16_5',1]},
-  r32_11: {label:'Match 83  |  Jul 2', t1:'Spain',              t2:'Austria',              feedsInto:['r16_6',2]},
-  r32_12: {label:'Match 84  |  Jul 2', t1:'Portugal',           t2:'Croatia',              feedsInto:['r16_6',1]},
-  r32_13: {label:'Match 85  |  Jul 2', t1:'Switzerland',        t2:'Algeria',              feedsInto:['r16_7',2]},
-  r32_14: {label:'Match 86  |  Jul 3', t1:'Argentina',          t2:'Cape Verde',           feedsInto:['r16_8',1]},
-  r32_15: {label:'Match 87  |  Jul 3', t1:'Colombia',           t2:'Ghana',                feedsInto:['r16_7',1]},
-  r32_16: {label:'Match 88  |  Jul 3', t1:'Australia',          t2:'Egypt',                feedsInto:['r16_8',2]},
+  // Round of 32 — FIFA confirmed bracket (from bracket image)
+  // Left side of bracket
+  r32_2:  {label:'Match 74  |  Jun 29',t1:'Germany',            t2:'Paraguay',             feedsInto:['r16_1',1]},
+  r32_5:  {label:'Match 77  |  Jun 30',t1:'France',             t2:'Sweden',               feedsInto:['r16_1',2]},
+  r32_1:  {label:'Match 73  |  Jun 28',t1:'South Africa',       t2:'Canada',               feedsInto:['r16_2',1]},
+  r32_3:  {label:'Match 75  |  Jun 30',t1:'Netherlands',        t2:'Morocco',              feedsInto:['r16_2',2]},
+  r32_7:  {label:'Match 79  |  Jun 30',t1:'Mexico',             t2:'Ecuador',              feedsInto:['r16_3',1]},
+  r32_8:  {label:'Match 80  |  Jul 1', t1:'England',            t2:'DR Congo',             feedsInto:['r16_3',2]},
+  r32_4:  {label:'Match 76  |  Jun 29',t1:'Brazil',             t2:'Japan',                feedsInto:['r16_4',1]},
+  r32_6:  {label:'Match 78  |  Jun 30',t1:'Ivory Coast',        t2:'Norway',               feedsInto:['r16_4',2]},
+  // Right side of bracket
+  r32_12: {label:'Match 84  |  Jul 2', t1:'Portugal',           t2:'Croatia',              feedsInto:['r16_5',1]},
+  r32_11: {label:'Match 83  |  Jul 2', t1:'Spain',              t2:'Austria',              feedsInto:['r16_5',2]},
+  r32_10: {label:'Match 82  |  Jul 1', t1:'USA',                t2:'Bosnia & Herzegovina', feedsInto:['r16_6',1]},
+  r32_9:  {label:'Match 81  |  Jul 1', t1:'Belgium',            t2:'Senegal',              feedsInto:['r16_6',2]},
+  r32_14: {label:'Match 86  |  Jul 3', t1:'Argentina',          t2:'Cape Verde',           feedsInto:['r16_7',1]},
+  r32_16: {label:'Match 88  |  Jul 3', t1:'Australia',          t2:'Egypt',                feedsInto:['r16_7',2]},
+  r32_13: {label:'Match 85  |  Jul 2', t1:'Switzerland',        t2:'Algeria',              feedsInto:['r16_8',1]},
+  r32_15: {label:'Match 87  |  Jul 3', t1:'Colombia',           t2:'Ghana',                feedsInto:['r16_8',2]},
 
   // Round of 16
-  r16_1:  {label:'R16 Match 1  |  Jul 4', t1:null,t2:null, feedsInto:['qf_1',1]},
-  r16_2:  {label:'R16 Match 2  |  Jul 4', t1:null,t2:null, feedsInto:['qf_1',2]},
-  r16_3:  {label:'R16 Match 3  |  Jul 5', t1:null,t2:null, feedsInto:['qf_2',1]},
-  r16_4:  {label:'R16 Match 4  |  Jul 5', t1:null,t2:null, feedsInto:['qf_2',2]},
-  r16_5:  {label:'R16 Match 5  |  Jul 6', t1:null,t2:null, feedsInto:['qf_3',1]},
-  r16_6:  {label:'R16 Match 6  |  Jul 6', t1:null,t2:null, feedsInto:['qf_3',2]},
-  r16_7:  {label:'R16 Match 7  |  Jul 7', t1:null,t2:null, feedsInto:['qf_4',1]},
-  r16_8:  {label:'R16 Match 8  |  Jul 7', t1:null,t2:null, feedsInto:['qf_4',2]},
+  r16_1:  {label:'R16  |  Jul 4',  t1:null,t2:null, feedsInto:['qf_1',1]},
+  r16_2:  {label:'R16  |  Jul 4',  t1:null,t2:null, feedsInto:['qf_1',2]},
+  r16_3:  {label:'R16  |  Jul 5',  t1:null,t2:null, feedsInto:['qf_2',1]},
+  r16_4:  {label:'R16  |  Jul 5',  t1:null,t2:null, feedsInto:['qf_2',2]},
+  r16_5:  {label:'R16  |  Jul 6',  t1:null,t2:null, feedsInto:['qf_3',1]},
+  r16_6:  {label:'R16  |  Jul 6',  t1:null,t2:null, feedsInto:['qf_3',2]},
+  r16_7:  {label:'R16  |  Jul 7',  t1:null,t2:null, feedsInto:['qf_4',1]},
+  r16_8:  {label:'R16  |  Jul 7',  t1:null,t2:null, feedsInto:['qf_4',2]},
 
   // Quarterfinals
   qf_1: {label:'QF 1  |  Jul 9',  t1:null,t2:null, feedsInto:['sf_1',1]},
-  qf_2: {label:'QF 2  |  Jul 11', t1:null,t2:null, feedsInto:['sf_1',2]},
+  qf_2: {label:'QF 2  |  Jul 9',  t1:null,t2:null, feedsInto:['sf_1',2]},
   qf_3: {label:'QF 3  |  Jul 10', t1:null,t2:null, feedsInto:['sf_2',1]},
-  qf_4: {label:'QF 4  |  Jul 11', t1:null,t2:null, feedsInto:['sf_2',2]},
+  qf_4: {label:'QF 4  |  Jul 10', t1:null,t2:null, feedsInto:['sf_2',2]},
 
   // Semifinals
   sf_1: {label:'SF 1  |  Jul 14', t1:null,t2:null, feedsInto:['final_1',1], feedsLoser:['third_1',1]},
   sf_2: {label:'SF 2  |  Jul 15', t1:null,t2:null, feedsInto:['final_1',2], feedsLoser:['third_1',2]},
 
   // 3rd Place & Final
-  third_1: {label:'3rd Place  |  Jul 18  |  Miami', t1:null, t2:null, feedsInto:null},
+  third_1: {label:'3rd Place  |  Jul 18', t1:null, t2:null, feedsInto:null},
   final_1: {label:'⭐ Final  |  Jul 19  |  MetLife Stadium', t1:null, t2:null, feedsInto:null},
 };
 
 const ROUNDS = [
-  {id:'r32',  label:'Round of 32',   badge:'rb-r32',   pts:'2 pts',  ids:['r32_1','r32_2','r32_3','r32_4','r32_5','r32_6','r32_7','r32_8','r32_9','r32_10','r32_11','r32_12','r32_13','r32_14','r32_15','r32_16']},
+  {id:'r32',  label:'Round of 32',   badge:'rb-r32',   pts:'2 pts',  ids:['r32_2','r32_5','r32_1','r32_3','r32_7','r32_8','r32_4','r32_6','r32_12','r32_11','r32_10','r32_9','r32_14','r32_16','r32_13','r32_15']},
   {id:'r16',  label:'Round of 16',   badge:'rb-r16',   pts:'3 pts',  ids:['r16_1','r16_2','r16_3','r16_4','r16_5','r16_6','r16_7','r16_8']},
   {id:'qf',   label:'Quarterfinals', badge:'rb-qf',    pts:'6 pts',  ids:['qf_1','qf_2','qf_3','qf_4']},
   {id:'sf',   label:'Semifinals',    badge:'rb-sf',    pts:'8 pts',  ids:['sf_1','sf_2']},
