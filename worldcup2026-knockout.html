@@ -128,7 +128,7 @@
 </div>
 
 <script>
-const SHEET_URL='https://formspree.io/f/xojowlek';
+const SHEET_URL='https://script.google.com/macros/s/AKfycbzH8FYx_zBvGH0ePkDYxjisc-L7dNabozd8v-4dPcZxcPZlf6-3DUnPk8jSJ0F_e6dr0A/exec';
 
 // Bracket structure: each match has an id, label, and slots for team1/team2
 // feedsInto: [matchId, slot(1or2)] — when this match is won, winner goes to that slot
@@ -342,21 +342,12 @@ async function handleSubmit() {
   btn.disabled=true; btn.textContent='Submitting...';
 
   try {
-    // Build readable picks for Formspree
-    const pickLines = Object.entries(picks).map(([k,v]) => k + ': ' + v).join(', ');
-    const res = await fetch(SHEET_URL, {
+    await fetch(SHEET_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
-        name: name,
-        email: email,
-        _replyto: email,
-        _subject: 'World Cup 2026 Knockout Picks — ' + name,
-        picks: pickLines
-      })
+      mode: 'no-cors',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({name, email, picks})
     });
-    const result = await res.json();
-    if (result.error) throw new Error(result.error);
     document.getElementById('modalMsg').textContent=`${name}, your bracket is locked in! Good luck! 🏆`;
     document.getElementById('modal').classList.add('show');
     btn.textContent='✓ Picks Submitted';
