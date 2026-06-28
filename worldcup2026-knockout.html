@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Cup 2026 — Knockout Picks</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0f1e; --surface: #111827; --card: #1a2235; --border: #2a3a55;
+    --gold: #f5c842; --gold2: #e8a820; --green: #2ecc71; --text: #e8edf5;
+    --muted: #8896a8; --accent: #3b82f6; --red: #e84040;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; background-image: radial-gradient(ellipse at 20% 0%, #1a2a4a 0%, transparent 60%); }
+  header { text-align: center; padding: 40px 20px 24px; border-bottom: 1px solid var(--border); }
+  .trophy { font-size: 44px; display: block; margin-bottom: 10px; }
+  header h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(32px, 7vw, 64px); letter-spacing: 4px; color: var(--gold); line-height: 1; }
+  header h2 { font-size: 12px; letter-spacing: 6px; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+
+  .scoring-row { display: flex; justify-content: center; gap: 8px; padding: 16px 20px; flex-wrap: wrap; border-bottom: 1px solid var(--border); }
+  .pill { padding: 5px 12px; border-radius: 99px; font-size: 11px; font-weight: 500; letter-spacing: 0.5px; border: 1px solid; }
+  .p1 { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.3); color: #60a5fa; }
+  .p2 { background: rgba(139,92,246,0.1); border-color: rgba(139,92,246,0.3); color: #a78bfa; }
+  .p3 { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); color: #fbbf24; }
+  .p4 { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); color: #f87171; }
+  .p5 { background: rgba(245,200,66,0.1); border-color: rgba(245,200,66,0.3); color: var(--gold); }
+
+  .info-section { max-width: 640px; margin: 28px auto 0; padding: 0 20px; }
+  .info-label { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--gold); margin-bottom: 10px; }
+  .info-row { display: flex; gap: 12px; }
+  .info-row input { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; outline: none; transition: border-color 0.2s; }
+  .info-row input:focus { border-color: var(--accent); }
+
+  .rounds { max-width: 960px; margin: 28px auto; padding: 0 20px; }
+
+  .round-block { margin-bottom: 28px; }
+  .round-title { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .round-badge { font-family: 'Bebas Neue', sans-serif; font-size: 14px; letter-spacing: 2px; padding: 4px 14px; border-radius: 99px; border: 1px solid; }
+  .rb-r32   { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.4); color: #60a5fa; }
+  .rb-r16   { background: rgba(139,92,246,0.1); border-color: rgba(139,92,246,0.4); color: #a78bfa; }
+  .rb-qf    { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.4); color: #fbbf24; }
+  .rb-sf    { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.4); color: #f87171; }
+  .rb-3rd   { background: rgba(46,204,113,0.1); border-color: rgba(46,204,113,0.4); color: var(--green); }
+  .rb-final { background: rgba(245,200,66,0.1); border-color: rgba(245,200,66,0.4); color: var(--gold); }
+  .round-pts { font-size: 12px; color: var(--muted); margin-left: auto; letter-spacing: 0.5px; }
+
+  .matches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+
+  .match-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: border-color 0.15s; }
+  .match-card.picked { border-color: rgba(245,200,66,0.4); }
+  .match-header { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); padding: 7px 12px 6px; background: var(--surface); border-bottom: 1px solid var(--border); }
+  .match-body { padding: 6px; display: flex; flex-direction: column; gap: 2px; }
+
+  .team-btn { display: flex; align-items: center; gap: 9px; padding: 9px 10px; border-radius: 6px; cursor: pointer; border: 1px solid transparent; transition: all 0.12s; -webkit-tap-highlight-color: transparent; touch-action: manipulation; background: none; width: 100%; text-align: left; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; }
+  .team-btn:hover { background: rgba(255,255,255,0.04); }
+  .team-btn.selected { background: rgba(245,200,66,0.1); border-color: rgba(245,200,66,0.4); }
+  .radio { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.12s; }
+  .team-btn.selected .radio { border-color: var(--gold); background: var(--gold); }
+  .team-btn.selected .radio::after { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #000; display: block; }
+  .vs { text-align: center; font-size: 9px; letter-spacing: 3px; color: var(--border); }
+
+  .progress-wrap { max-width: 640px; margin: 0 auto 20px; padding: 0 20px; }
+  .prog-bar-bg { background: var(--surface); border: 1px solid var(--border); border-radius: 99px; height: 8px; overflow: hidden; margin-top: 6px; }
+  .prog-bar { height: 100%; background: linear-gradient(90deg, var(--accent), var(--gold)); border-radius: 99px; transition: width 0.3s; }
+  .prog-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-top: 5px; }
+
+  .submit-wrap { max-width: 640px; margin: 0 auto 60px; padding: 0 20px; }
+  .submit-btn { width: 100%; padding: 17px; background: linear-gradient(135deg, var(--gold), var(--gold2)); border: none; border-radius: 10px; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 4px; color: #000; cursor: pointer; transition: all 0.2s; }
+  .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(245,200,66,0.3); }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+  .submit-note { text-align: center; font-size: 12px; color: var(--muted); margin-top: 8px; }
+
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+  .modal-overlay.show { display: flex; }
+  .modal { background: var(--card); border: 1px solid var(--border); border-radius: 16px; max-width: 480px; width: 100%; padding: 36px; text-align: center; }
+  .modal h2 { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 3px; color: var(--gold); margin: 12px 0 8px; }
+  .modal p { color: var(--muted); font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
+  .modal-close { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 22px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="trophy">🏆</span>
+  <h1>FIFA World Cup 2026</h1>
+  <h2>Knockout Phase Picks</h2>
+</header>
+
+<div class="scoring-row">
+  <span class="pill p1">Round of 32 — 2pts</span>
+  <span class="pill p2">Round of 16 — 3pts</span>
+  <span class="pill p3">Quarterfinals — 6pts</span>
+  <span class="pill p4">Semifinals — 8pts</span>
+  <span class="pill p5">3rd Place — 6pts &nbsp;·&nbsp; Final — 14pts</span>
+</div>
+
+<div class="info-section">
+  <div class="info-label">Your Info</div>
+  <div class="info-row">
+    <input type="text" id="playerName" placeholder="Full Name *" />
+    <input type="email" id="playerEmail" placeholder="Email Address *" />
+  </div>
+</div>
+
+<div style="max-width:640px;margin:20px auto 0;padding:0 20px;">
+  <div class="info-label">Progress</div>
+  <div class="prog-bar-bg"><div class="prog-bar" id="progBar" style="width:0%"></div></div>
+  <div class="prog-labels"><span id="progText">0 of 48 matches picked</span><span id="progPct">0%</span></div>
+</div>
+
+<div class="rounds" id="roundsContainer"></div>
+
+<div class="submit-wrap">
+  <button class="submit-btn" id="submitBtn" onclick="handleSubmit()">Submit Knockout Picks</button>
+  <div class="submit-note">Picks locked at first kickoff Sunday. You may resubmit to update before then.</div>
+</div>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div style="font-size:52px">🎉</div>
+    <h2>Picks Submitted!</h2>
+    <p id="modalMsg">Your knockout bracket is locked in. Good luck!</p>
+    <button class="modal-close" onclick="document.getElementById('modal').classList.remove('show')">Close</button>
+  </div>
+</div>
+
+<script>
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyhiyutS5Q66_pIURGMRkUdx7JYEWlvcsFZSaIR29trz7dS8lOPrULm0sAGZPDuhAZj/exec';
+
+const ROUNDS = [
+  {
+    id: 'r32', label: 'Round of 32', badge: 'rb-r32', pts: '2 pts per correct pick',
+    matches: [
+      { id:'r32_1',  label:'Match 73  |  Jun 28', t1:'South Africa',         t2:'Canada' },
+      { id:'r32_2',  label:'Match 74  |  Jun 29', t1:'Germany',              t2:'Paraguay' },
+      { id:'r32_3',  label:'Match 75  |  Jun 30', t1:'Netherlands',          t2:'Morocco' },
+      { id:'r32_4',  label:'Match 76  |  Jun 29', t1:'Brazil',               t2:'Japan' },
+      { id:'r32_5',  label:'Match 77  |  Jun 30', t1:'France',               t2:'Sweden' },
+      { id:'r32_6',  label:'Match 78  |  Jun 30', t1:'Ivory Coast',          t2:'Norway' },
+      { id:'r32_7',  label:'Match 79  |  Jun 30', t1:'Mexico',               t2:'Ecuador' },
+      { id:'r32_8',  label:'Match 80  |  Jul 1',  t1:'England',              t2:'DR Congo' },
+      { id:'r32_9',  label:'Match 81  |  Jul 1',  t1:'Belgium',              t2:'Senegal' },
+      { id:'r32_10', label:'Match 82  |  Jul 1',  t1:'USA',                  t2:'Bosnia & Herzegovina' },
+      { id:'r32_11', label:'Match 83  |  Jul 2',  t1:'Spain',                t2:'Austria' },
+      { id:'r32_12', label:'Match 84  |  Jul 2',  t1:'Portugal',             t2:'Croatia' },
+      { id:'r32_13', label:'Match 85  |  Jul 2',  t1:'Switzerland',          t2:'Algeria' },
+      { id:'r32_14', label:'Match 86  |  Jul 3',  t1:'Argentina',            t2:'Cape Verde' },
+      { id:'r32_15', label:'Match 87  |  Jul 3',  t1:'Colombia',             t2:'Ghana' },
+      { id:'r32_16', label:'Match 88  |  Jul 3',  t1:'Australia',            t2:'Egypt' },
+    ]
+  },
+  {
+    id: 'r16', label: 'Round of 16', badge: 'rb-r16', pts: '3 pts per correct pick',
+    matches: [
+      { id:'r16_1', label:'W74 vs W77', t1:'Winner: Germany/Paraguay',       t2:'Winner: France/Sweden' },
+      { id:'r16_2', label:'W73 vs W75', t1:'Winner: S.Africa/Canada',        t2:'Winner: Netherlands/Morocco' },
+      { id:'r16_3', label:'W79 vs W80', t1:'Winner: Mexico/Ecuador',         t2:'Winner: England/DR Congo' },
+      { id:'r16_4', label:'W76 vs W78', t1:'Winner: Brazil/Japan',           t2:'Winner: Ivory Coast/Norway' },
+      { id:'r16_5', label:'W83 vs W84', t1:'Winner: Portugal/Croatia',       t2:'Winner: Spain/Austria' },
+      { id:'r16_6', label:'W81 vs W82', t1:'Winner: USA/Bosnia',             t2:'Winner: Belgium/Senegal' },
+      { id:'r16_7', label:'W86 vs W88', t1:'Winner: Argentina/Cape Verde',   t2:'Winner: Australia/Egypt' },
+      { id:'r16_8', label:'W85 vs W87', t1:'Winner: Switzerland/Algeria',    t2:'Winner: Colombia/Ghana' },
+    ]
+  },
+  {
+    id: 'qf', label: 'Quarterfinals', badge: 'rb-qf', pts: '6 pts per correct pick',
+    matches: [
+      { id:'qf_1', label:'QF 1', t1:'Winner R16 Match 1', t2:'Winner R16 Match 2' },
+      { id:'qf_2', label:'QF 2', t1:'Winner R16 Match 3', t2:'Winner R16 Match 4' },
+      { id:'qf_3', label:'QF 3', t1:'Winner R16 Match 5', t2:'Winner R16 Match 6' },
+      { id:'qf_4', label:'QF 4', t1:'Winner R16 Match 7', t2:'Winner R16 Match 8' },
+    ]
+  },
+  {
+    id: 'sf', label: 'Semifinals', badge: 'rb-sf', pts: '8 pts per correct pick',
+    matches: [
+      { id:'sf_1', label:'SF 1', t1:'Winner QF 1', t2:'Winner QF 2' },
+      { id:'sf_2', label:'SF 2', t1:'Winner QF 3', t2:'Winner QF 4' },
+    ]
+  },
+  {
+    id: 'third', label: '3rd Place Match', badge: 'rb-3rd', pts: '6 pts',
+    matches: [
+      { id:'third_1', label:'3rd Place  |  Jul 18', t1:'SF 1 Loser', t2:'SF 2 Loser' },
+    ]
+  },
+  {
+    id: 'final', label: 'Final', badge: 'rb-final', pts: '14 pts',
+    matches: [
+      { id:'final_1', label:'Final  |  Jul 19  |  MetLife Stadium', t1:'SF 1 Winner', t2:'SF 2 Winner' },
+    ]
+  },
+];
+
+const picks = {};
+const TOTAL = ROUNDS.reduce((s, r) => s + r.matches.length, 0);
+
+function buildRounds() {
+  const container = document.getElementById('roundsContainer');
+  ROUNDS.forEach(round => {
+    const block = document.createElement('div');
+    block.className = 'round-block';
+    block.innerHTML = `
+      <div class="round-title">
+        <span class="round-badge ${round.badge}">${round.label}</span>
+        <span class="round-pts">${round.pts}</span>
+      </div>
+      <div class="matches-grid" id="grid-${round.id}"></div>
+    `;
+    container.appendChild(block);
+
+    const grid = block.querySelector(`#grid-${round.id}`);
+    round.matches.forEach(m => grid.appendChild(buildCard(m)));
+  });
+}
+
+function buildCard(m) {
+  const card = document.createElement('div');
+  card.className = 'match-card';
+  card.id = `card-${m.id}`;
+  card.innerHTML = `
+    <div class="match-header">${m.label}</div>
+    <div class="match-body">
+      <button class="team-btn" onclick="pick('${m.id}','${m.t1.replace(/'/g,"\\'")}',this)">
+        <div class="radio"></div><span>${m.t1}</span>
+      </button>
+      <div class="vs">VS</div>
+      <button class="team-btn" onclick="pick('${m.id}','${m.t2.replace(/'/g,"\\'")}',this)">
+        <div class="radio"></div><span>${m.t2}</span>
+      </button>
+    </div>
+  `;
+  return card;
+}
+
+function pick(matchId, team, btn) {
+  picks[matchId] = team;
+  const card = document.getElementById(`card-${matchId}`);
+  card.classList.add('picked');
+  card.querySelectorAll('.team-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  updateProgress();
+}
+
+function updateProgress() {
+  const done = Object.keys(picks).length;
+  const pct = Math.round(done / TOTAL * 100);
+  document.getElementById('progBar').style.width = pct + '%';
+  document.getElementById('progText').textContent = `${done} of ${TOTAL} matches picked`;
+  document.getElementById('progPct').textContent = pct + '%';
+}
+
+async function handleSubmit() {
+  const name  = document.getElementById('playerName').value.trim();
+  const email = document.getElementById('playerEmail').value.trim();
+  if (!name)  { alert('Please enter your name.'); return; }
+  if (!email || !email.includes('@')) { alert('Please enter a valid email address.'); return; }
+  const done = Object.keys(picks).length;
+  if (done < TOTAL) { alert(`Please pick a winner for all ${TOTAL} matches. You have ${done} of ${TOTAL} done.`); return; }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true; btn.textContent = 'Submitting...';
+
+  try {
+    await fetch(SHEET_URL, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'knockout', name, email, picks })
+    });
+    document.getElementById('modalMsg').textContent = `${name}, your knockout bracket is locked in! Good luck! 🏆`;
+    document.getElementById('modal').classList.add('show');
+    btn.textContent = '✓ Picks Submitted';
+    btn.style.background = 'linear-gradient(135deg,#2ecc71,#27ae60)';
+  } catch(err) {
+    btn.disabled = false; btn.textContent = 'Submit Knockout Picks';
+    alert('Something went wrong. Please try again.');
+  }
+}
+
+buildRounds();
+</script>
+</body>
+</html>
