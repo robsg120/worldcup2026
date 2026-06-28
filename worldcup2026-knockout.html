@@ -342,16 +342,21 @@ async function handleSubmit() {
   btn.disabled=true; btn.textContent='Submitting...';
 
   try {
-    // Build readable picks summary for email
-    const pickLines = Object.entries(picks).map(([k,v]) => `${k}: ${v}`).join('\n');
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('email', email);
-    formData.append('_replyto', email);
-    formData.append('_subject', `World Cup 2026 Knockout Picks — ${name}`);
-    formData.append('picks', pickLines);
-    const res = await fetch(SHEET_URL, {method:'POST', body: formData});
-    if (!res.ok) throw new Error('Formspree error');
+    // Build readable picks for Formspree
+    const pickLines = Object.entries(picks).map(([k,v]) => k + ': ' + v).join(', ');
+    const res = await fetch(SHEET_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        _replyto: email,
+        _subject: 'World Cup 2026 Knockout Picks — ' + name,
+        picks: pickLines
+      })
+    });
+    const result = await res.json();
+    if (result.error) throw new Error(result.error);
     document.getElementById('modalMsg').textContent=`${name}, your bracket is locked in! Good luck! 🏆`;
     document.getElementById('modal').classList.add('show');
     btn.textContent='✓ Picks Submitted';
